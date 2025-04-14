@@ -84,11 +84,14 @@ try {
         echo "<p><strong>Monto pagado:</strong> $" . number_format($compra['precio'], 0, ',', '.') . "</p>";
         echo "<p><strong>Fecha estimada de entrega:</strong> $fechaEntrega</p>";
         echo "<a href='home.html'>Volver a la tienda</a>";
+        echo "<a href='generar_pdf.php?boleta=$numeroBoleta' target='_blank'>Descargar comprobante</a>";
+
 
     } else {
         echo "<h1>Pago rechazado</h1>";
         echo "<p>Lo sentimos, tu pago no fue aprobado.</p>";
         echo "<a href='index.html'>Volver a intentar</a>";
+
     }
 
 } catch (Exception $e) {

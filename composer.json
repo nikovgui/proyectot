@@ -1,5 +1,6 @@
 {
     "require": {
-        "transbank/transbank-sdk": "4.0"
+        "transbank/transbank-sdk": "4.0",
+        "setasign/fpdf": "^1.8"
     }
 }
