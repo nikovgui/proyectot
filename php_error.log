@@ -1,0 +1,4 @@
+[10-Apr-2025 18:37:50 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Transbank\Webpay\WebpayPlus\WebpayPlus" not found in C:\Users\aguir\Desktop\proyecto de titulo\webpay_init.php:28
+Stack trace:
+#0 {main}
+  thrown in C:\Users\aguir\Desktop\proyecto de titulo\webpay_init.php on line 28

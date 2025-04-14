@@ -66,7 +66,8 @@
             <div class="size-container" id="size-options"></div>
 
             <div class="action-buttons">
-                <button class="btn-main" id="buy-now" disabled>Comprar ahora</button>
+                <!-- El botón de "Comprar Ahora" está habilitado solo si se selecciona una talla -->
+                <button id="comprar-btn" class="btn-main" disabled>Comprar Ahora</button>
                 <button class="btn-secondary" id="add-to-cart" disabled>Añadir a la bolsa</button>
             </div>
         </div>
@@ -107,7 +108,7 @@
                 const sizeContainer = document.getElementById("size-options");
                 let selectedSize = null;
 
-                const sizes = ["6", "7", "8", "9", "10", "11", "12", "13"]; // Más tallas incluidas
+                const sizes = ["6", "7", "8", "9", "10", "11", "12", "13"];
 
                 sizes.forEach(size => {
                     const button = document.createElement("button");
@@ -120,7 +121,7 @@
                             button.classList.add("selected");
                             selectedSize = size;
                             document.getElementById("final-price").textContent = `$${sneaker.prices[size]}`;
-                            document.getElementById("buy-now").disabled = false;
+                            document.getElementById("comprar-btn").disabled = false;
                             document.getElementById("add-to-cart").disabled = false;
                         };
                     } else {
@@ -129,6 +130,16 @@
                     }
 
                     sizeContainer.appendChild(button);
+                });
+
+                // Enviar el ID y el precio a la página de pago al hacer clic en "Comprar Ahora"
+                document.getElementById("comprar-btn").addEventListener("click", function() {
+                    if (selectedSize) {
+                        // Aquí podemos redirigir al usuario a la página de pago
+                        window.location.href = `formulario_pago.html?id=${sneakerId}&precio=${sneaker.prices[selectedSize]}`;
+                    } else {
+                        alert("Por favor, selecciona una talla.");
+                    }
                 });
             })
             .catch(error => console.error("Error obteniendo detalles:", error));

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Pago</title>
+</head>
+<body>
+    <h2>Formulario de Pago</h2>
+
+    <form id="form-compra">
+        <input type="text" name="nombre" placeholder="Nombre" required>
+        <input type="text" name="apellido" placeholder="Apellido" required>
+        <input type="text" name="direccion" placeholder="Dirección" required>
+        <input type="email" name="email" placeholder="Correo" required>
+        <input type="tel" name="telefono" placeholder="Teléfono" required>
+
+        <input type="hidden" name="precio" id="precio"> <!-- Precio dinámico -->
+        <input type="hidden" name="id_producto" id="id_producto"> <!-- ID del producto a pagar -->
+
+        <button type="submit">Pagar</button>
+    </form>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const productoId = params.get('id');  
+        const precioSeleccionado = params.get('precio'); // Obtener el precio dinámico
+
+        // Asegurar que los valores seleccionados se pasan al formulario
+        document.getElementById('id_producto').value = productoId;
+        document.getElementById('precio').value = precioSeleccionado;
+
+        // Enviar los datos del formulario a Webpay cuando el usuario hace clic en "Pagar"
+        document.getElementById('form-compra').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
+
+            const formData = new FormData(this);
+
+            console.log("Datos enviados:", Object.fromEntries(formData.entries())); // Debug
+
+            fetch('http://localhost:8000/webpay_init.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(async response => {
+                const text = await response.text();  
+                try {
+                    const json = JSON.parse(text);
+                    return json;
+                } catch (error) {
+                    console.error("La respuesta del servidor no fue JSON válido:\n", text);
+                    throw new Error("Error de formato en la respuesta del servidor.");
+                }
+            })
+            .then(data => {
+                if (data.url && data.token) {
+                    window.location.href = `${data.url}?token_ws=${data.token}`;
+                } else {
+                    alert('Error al iniciar el pago: respuesta incompleta.');
+                    console.error('Respuesta recibida:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error al procesar el pago:', error);
+                alert('Ocurrió un problema al iniciar el pago. Revisa la consola para más detalles.');
+            });
+        });
+    </script>
+</body>
+</html>

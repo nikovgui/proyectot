@@ -1,0 +1,1 @@
+API Response: "session_id is required!" [422] - The transaction could not be created.
