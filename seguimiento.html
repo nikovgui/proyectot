@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de Pedido</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Font Awesome -->
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .barra-progreso { display: flex; justify-content: space-between; align-items: center; margin: 30px auto; width: 80%; }
+        .estado { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; font-size: 14px; font-weight: bold; background-color: #ddd; padding: 10px; }
+        .estado i { font-size: 30px; margin-bottom: 5px; }
+        .activo { background-color: #007bff; color: white; }
+        .linea { flex: 1; height: 5px; background-color: #ddd; margin: 0 10px; position: relative; top: 50px; }
+        .linea-activa { background-color: #007bff; }
+        #mapa { width: 80%; height: 400px; margin: 20px auto; }
+    </style>
+</head>
+<body>
+    <h2>Seguimiento de Pedido</h2>
+    <label for="numero_boleta">Ingrese su número de boleta:</label>
+    <input type="text" id="numero_boleta" placeholder="Ejemplo: A1B2C3D4E5">
+    <button onclick="buscarPedido()">Consultar</button>
+    <p id="resultado"></p>
+
+    <div class="barra-progreso">
+        <div class="estado" id="confirmada"><i class="fas fa-check-circle"></i><p>Confirmado</p></div>
+        <div class="linea" id="linea1"></div>
+        <div class="estado" id="preparacion"><i class="fas fa-box-open"></i><p>Preparación</p></div>
+        <div class="linea" id="linea2"></div>
+        <div class="estado" id="envio"><i class="fas fa-shipping-fast"></i><p>Envío</p></div>
+        <div class="linea" id="linea3"></div>
+        <div class="estado" id="recibido"><i class="fas fa-hands-helping"></i><p>Recibido</p></div>
+    </div>
+
+    <div id="mapa">
+        <img id="mapa-img" src="" alt="Ubicación del pedido" width="600">
+    </div>
+
+    <script>
+        function buscarPedido() {
+            let boleta = document.getElementById("numero_boleta").value.trim();
+            if (boleta === "") {
+                document.getElementById("resultado").innerText = "Por favor, ingrese un número de boleta.";
+                return;
+            }
+
+            fetch(`seguimiento_api.php?boleta=${boleta}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById("resultado").innerText = data.error;
+                } else {
+                    document.getElementById("resultado").innerText = `Estado: ${data.estado} (Última actualización: ${data.fecha_actualizacion})`;
+                    actualizarBarraProgreso(data.estado);
+                    actualizarMapa(data.estado);
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function actualizarBarraProgreso(estado) {
+            document.querySelectorAll(".estado").forEach(el => el.classList.remove("activo"));
+            document.querySelectorAll(".linea").forEach(el => el.classList.remove("linea-activa"));
+
+            if (estado === "Pedido recibido") {
+                document.getElementById("confirmada").classList.add("activo");
+            } else if (estado === "Procesando en almacén") {
+                document.getElementById("confirmada").classList.add("activo");
+                document.getElementById("linea1").classList.add("linea-activa");
+                document.getElementById("preparacion").classList.add("activo");
+            } else if (estado === "En tránsito") {
+                document.getElementById("confirmada").classList.add("activo");
+                document.getElementById("linea1").classList.add("linea-activa");
+                document.getElementById("preparacion").classList.add("activo");
+                document.getElementById("linea2").classList.add("linea-activa");
+                document.getElementById("envio").classList.add("activo");
+            } else if (estado === "Entregado") {
+                document.getElementById("confirmada").classList.add("activo");
+                document.getElementById("linea1").classList.add("linea-activa");
+                document.getElementById("preparacion").classList.add("activo");
+                document.getElementById("linea2").classList.add("linea-activa");
+                document.getElementById("envio").classList.add("activo");
+                document.getElementById("linea3").classList.add("linea-activa");
+                document.getElementById("recibido").classList.add("activo");
+            }
+        }
+
+        function actualizarMapa(estado) {
+            let ubicaciones = {
+                "Pedido recibido": "40.7128,-74.0060", // Nueva York, EE.UU.
+                "Procesando en almacén": "40.7128,-74.0060", // Almacén en EE.UU.
+                "En tránsito": "-33.4489,-70.6693", // Chile (Santiago)
+                "Entregado": "-33.4569,-70.6483" // Dirección genérica en Chile
+            };
+
+            if (ubicaciones[estado]) {
+                let coordenadas = ubicaciones[estado];
+                let apiKey = "AIzaSyCHjxOf4pRdRDh9bg8f6lcNhJruJWXtw2g";
+                let mapaURL = `https://maps.googleapis.com/maps/api/staticmap?center=${coordenadas}&zoom=10&size=600x400&markers=color:red%7C${coordenadas}&key=${apiKey}`;
+                document.getElementById("mapa-img").src = mapaURL;
+            }
+        }
+    </script>
+</body>
+</html>

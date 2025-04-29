@@ -55,6 +55,17 @@
         .sneaker:hover {
             transform: scale(1.08);
         }
+        .seguimiento-btn {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+    .seguimiento-btn:hover {
+        background-color: #0056b3;
+    }
     </style>
 </head>
 <body>
@@ -71,11 +82,11 @@
                     <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
                     <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+                    <button class="seguimiento-btn" onclick="window.location.href='seguimiento.html'">Seguir mi pedido</button>                </form>
                 </ul>
                 <!-- 🔍 Input de búsqueda en el navbar -->
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" id="navbar-search" placeholder="Buscar zapatillas..." onkeyup="filtrarZapatillas()">
-                </form>
             </div>
         </div>
     </nav>

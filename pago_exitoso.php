@@ -23,16 +23,16 @@ try {
 
     if ($response && isset($response->buyOrder, $response->amount) && $response->isApproved()) {
         // **Recuperar datos del usuario**
-        $compra = $_SESSION['compra'] ?? null;
-
-        if (!$compra) {
+        if (!isset($_SESSION['compra'])) {
             echo "<h1>Error</h1><p>No se encontraron los datos de la compra.</p>";
             exit;
         }
 
+        $compra = $_SESSION['compra'];
+
         // **Obtener datos del producto comprado**
-        $stmt = $conn->prepare("SELECT name, images FROM sneakers WHERE id = ?");
-        $stmt->execute([$compra['producto_id']]);
+        $stmt = $conn->prepare("SELECT id, name, images FROM sneakers WHERE id = :id");
+        $stmt->execute(['id' => $compra['producto_id']]);
         $producto = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$producto) {
@@ -42,7 +42,7 @@ try {
         }
 
         // **Decodificar imágenes correctamente**
-        $producto["images"] = json_decode($producto["images"], true);
+        $producto["images"] = json_decode(stripslashes($producto["images"]), true);
 
         // **Generar número de boleta aleatorio**
         $numeroBoleta = strtoupper(substr(md5(uniqid()), 0, 10));
@@ -50,7 +50,7 @@ try {
         // **Calcular fecha estimada de entrega (+14 días)**
         $fechaEntrega = date("Y-m-d", strtotime("+14 days"));
 
-        // **Registrar la boleta en la base de datos con el precio seleccionado**
+        // **Registrar la boleta en la base de datos**
         $stmt = $conn->prepare("INSERT INTO boletas (numero_boleta, nombre, apellido, direccion, email, telefono, producto_id, monto_pagado, fecha_entrega) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([
             $numeroBoleta,
@@ -60,9 +60,13 @@ try {
             $compra['email'],
             $compra['telefono'],
             $compra['producto_id'],
-            $compra['precio'], // Guardar el precio seleccionado
+            $compra['precio'], 
             $fechaEntrega
         ]);
+
+        // **Registrar el seguimiento del pedido automáticamente**
+        $stmt = $conn->prepare("INSERT INTO seguimiento_pedidos (numero_boleta, estado) VALUES (?, 'Pedido recibido')");
+        $stmt->execute([$numeroBoleta]);
 
         // **Mostrar detalles del pago exitoso**
         echo "<h1>¡Pago exitoso!</h1>";
@@ -86,12 +90,10 @@ try {
         echo "<a href='home.html'>Volver a la tienda</a>";
         echo "<a href='generar_pdf.php?boleta=$numeroBoleta' target='_blank'>Descargar comprobante</a>";
 
-
     } else {
         echo "<h1>Pago rechazado</h1>";
         echo "<p>Lo sentimos, tu pago no fue aprobado.</p>";
         echo "<a href='index.html'>Volver a intentar</a>";
-
     }
 
 } catch (Exception $e) {
