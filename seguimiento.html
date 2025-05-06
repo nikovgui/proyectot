@@ -45,7 +45,7 @@
                 return;
             }
 
-            fetch(`seguimiento_api.php?boleta=${boleta}`)
+            fetch(`http://localhost/sneaker_store/seguimiento_api.php?boleta=${encodeURIComponent(boleta)}`)
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
@@ -83,22 +83,6 @@
                 document.getElementById("envio").classList.add("activo");
                 document.getElementById("linea3").classList.add("linea-activa");
                 document.getElementById("recibido").classList.add("activo");
-            }
-        }
-
-        function actualizarMapa(estado) {
-            let ubicaciones = {
-                "Pedido recibido": "40.7128,-74.0060", // Nueva York, EE.UU.
-                "Procesando en almacén": "40.7128,-74.0060", // Almacén en EE.UU.
-                "En tránsito": "-33.4489,-70.6693", // Chile (Santiago)
-                "Entregado": "-33.4569,-70.6483" // Dirección genérica en Chile
-            };
-
-            if (ubicaciones[estado]) {
-                let coordenadas = ubicaciones[estado];
-                let apiKey = "AIzaSyCHjxOf4pRdRDh9bg8f6lcNhJruJWXtw2g";
-                let mapaURL = `https://maps.googleapis.com/maps/api/staticmap?center=${coordenadas}&zoom=10&size=600x400&markers=color:red%7C${coordenadas}&key=${apiKey}`;
-                document.getElementById("mapa-img").src = mapaURL;
             }
         }
     </script>

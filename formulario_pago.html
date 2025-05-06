@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Pago</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 20px; background-color: #f4f4f4; }
+        h2 { color: #333; }
+        form { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
 </head>
 <body>
     <h2>Formulario de Pago</h2>
@@ -26,11 +34,16 @@
         const productoId = params.get('id');  
         const precioSeleccionado = params.get('precio'); // Obtener el precio dinámico
 
-        // Asegurar que los valores seleccionados se pasan al formulario
-        document.getElementById('id_producto').value = productoId;
-        document.getElementById('precio').value = precioSeleccionado;
+        // Verificar que los parámetros sean válidos antes de asignarlos
+        if (productoId && precioSeleccionado) {
+            document.getElementById('id_producto').value = productoId;
+            document.getElementById('precio').value = precioSeleccionado;
+        } else {
+            alert("Error: No se recibió información válida del producto.");
+            console.error("Datos incorrectos recibidos:", { productoId, precioSeleccionado });
+        }
 
-        // Enviar los datos del formulario a Webpay cuando el usuario hace clic en "Pagar"
+        // Enviar los datos del formulario a Webpay
         document.getElementById('form-compra').addEventListener('submit', function(e) {
             e.preventDefault(); // Evitar la recarga de la página
 
@@ -38,17 +51,16 @@
 
             console.log("Datos enviados:", Object.fromEntries(formData.entries())); // Debug
 
-            fetch('http://localhost:8000/webpay_init.php', {
+            fetch('http://localhost/sneaker_store/webpay_init.php', {
                 method: 'POST',
                 body: formData
             })
-            .then(async response => {
-                const text = await response.text();  
+            .then(response => response.text())
+            .then(text => {
                 try {
-                    const json = JSON.parse(text);
-                    return json;
+                    return JSON.parse(text);
                 } catch (error) {
-                    console.error("La respuesta del servidor no fue JSON válido:\n", text);
+                    console.error("Respuesta inesperada del servidor:\n", text);
                     throw new Error("Error de formato en la respuesta del servidor.");
                 }
             })

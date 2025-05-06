@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .container { max-width: 400px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); margin: 50px auto; }
+        h2 { margin-bottom: 20px; color: #333; }
+        form input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        form button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        form button:hover { background-color: #0056b3; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        #error-message { color: red; font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Registro de Usuario</h2>
+        <form id="registerForm">
+            <input type="text" name="nombre" id="nombre" placeholder="Nombre completo" required>
+            <input type="email" name="correo" id="correo" placeholder="Correo electrónico" required>
+            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
+            <input type="password" name="password" id="password" placeholder="Contraseña" required>
+            <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirmar contraseña" required>
+            <button type="submit">Registrarse</button>
+            <p>¿Ya tienes cuenta? <a href="http://localhost/sneaker_store/login.html">Inicia sesión</a></p>
+        </form>
+        <p id="error-message"></p>
+    </div>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe si hay errores
+
+            let nombre = document.getElementById("nombre").value.trim();
+            let correo = document.getElementById("correo").value.trim();
+            let fechaNacimiento = document.getElementById("fecha_nacimiento").value;
+            let password = document.getElementById("password").value.trim();
+            let passwordConfirm = document.getElementById("password_confirm").value.trim();
+            let errorMessage = document.getElementById("error-message");
+
+            // Validación del correo
+            let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(correo)) {
+                errorMessage.innerText = "Por favor, ingrese un correo válido.";
+                return;
+            }
+
+            // Validación de contraseña
+            let passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordPattern.test(password)) {
+                errorMessage.innerText = "La contraseña debe tener mínimo 8 caracteres, una mayúscula, un número y un símbolo.";
+                return;
+            }
+
+            // Validación de coincidencia de contraseñas
+            if (password !== passwordConfirm) {
+                errorMessage.innerText = "Las contraseñas no coinciden.";
+                return;
+            }
+
+            errorMessage.innerText = ""; // Limpia errores si todo está correcto
+
+            // Enviar datos al servidor con fetch()
+            fetch("http://localhost/sneaker_store/registro.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `nombre=${encodeURIComponent(nombre)}&correo=${encodeURIComponent(correo)}&fecha_nacimiento=${fechaNacimiento}&password=${encodeURIComponent(password)}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert("Registro exitoso! Ahora puedes iniciar sesión.");
+                window.location.href = "http://localhost/sneaker_store/login.html"; // Redirigir al login
+            })
+            .catch(error => {
+                errorMessage.innerText = "Error al registrar usuario.";
+                console.error("Error:", error);
+            });
+        });
+    </script>
+</body>
+</html>
