@@ -100,48 +100,53 @@
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary px-3">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">OGKicks</a>
+            <a class="navbar-brand fw-bold" href="#">OGKicks</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    
+            <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+                <!-- Navegación principal -->
+                <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
                     <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
-                    <button class="seguimiento-btn" onclick="window.location.href='http://localhost/sneaker_store/seguimiento.html'">Seguir mi pedido</button>
-                    <button id="admin-button" onclick="window.location.href='admin_dashboard.php'" style="display: none;">Administrar Zapatillas</button>
                 </ul>
-
-                
-                <!-- 🔍 Input de búsqueda en el navbar -->
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" id="navbar-search" placeholder="Buscar zapatillas..." onkeyup="filtrarZapatillas()">
+    
+                <!-- Botones de acción (centrado) -->
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-dark" onclick="window.location.href='http://localhost/sneaker_store/seguimiento.html'">Seguir mi pedido</button>
+                    <button id="admin-button" class="btn btn-dark" onclick="window.location.href='admin_dashboard.php'" style="display: none;">Administrar Zapatillas</button>
+                </div>
+    
+                <!-- Búsqueda -->
+                <form class="d-flex ms-3" role="search">
+                    <input class="form-control" type="search" id="navbar-search" placeholder="Buscar zapatillas..." onkeyup="filtrarZapatillas()">
                 </form>
-            </div>
-            <div class="navbar-nav">
-                <span id="user-name" class="nav-item nav-link"></span>
-                <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar sesión</button>
-            </div>
-            
-            <button id="abrirCarrito" class="btn btn-outline-dark">🛒 Ver Carrito (<span id="carrito-count">0</span>)</button>
-
-            <!-- Modal del carrito -->
-            <div id="modalCarrito" class="modal">
-                <div class="modal-contenido">
-                    <span class="cerrar" onclick="cerrarCarrito()">&times;</span>
-                    <h2>Carrito de Compras</h2>
-                    <div id="carrito-list"></div>
-                    <button onclick="vaciarCarrito()">Vaciar carrito</button>
-                    <button onclick="procesarPago()">🛒 Pagar ahora</button>
+    
+                <!-- Usuario y carrito -->
+                <div class="d-flex align-items-center gap-3 ms-3">
+                    <span id="user-name" class="nav-item nav-link"></span>
+                    <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar sesión</button>
+                    <button id="abrirCarrito" class="btn btn-outline-dark">🛒 Ver Carrito (<span id="carrito-count">0</span>)</button>
                 </div>
             </div>
-            
-
+        </div>
+    
+        <!-- Modal del carrito -->
+        <div id="modalCarrito" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar" onclick="cerrarCarrito()">&times;</span>
+                <h2>Carrito de Compras</h2>
+                <div id="carrito-list"></div>
+                <button onclick="vaciarCarrito()">Vaciar carrito</button>
+                <button onclick="procesarPago()">🛒 Pagar ahora</button>
+            </div>
         </div>
     </nav>
+    
 
     <div class="container-fluid">
         <!-- Panel de filtros -->
@@ -357,7 +362,7 @@
             });
         }
     </script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <script src="http://localhost/sneaker_store/carrito.js"></script>
 
 </body>

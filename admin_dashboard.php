@@ -117,7 +117,7 @@ $sneakers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 
     <!-- 📌 Botón de volver -->
-    <button class="back-btn" onclick="window.history.back()"><i class="fa-solid fa-backward"></i></button>
+    <button class="back-btn" onclick="window.history.back()"><i class="fa-solid fa-arrow-left"></i></button>
 
     <div class="container">
         <h2>Inventario de Zapatillas</h2>
