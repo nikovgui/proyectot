@@ -21,7 +21,6 @@
         .size-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
         .size-button { padding: 10px 15px; border: 1px solid #000; cursor: pointer; background: white; font-weight: bold; border-radius: 5px; }
         .size-button.selected { background: black; color: white; }
-        .size-button.disabled { background: #ccc; color: #666; cursor: not-allowed; opacity: 0.5; }
         .action-buttons { display: flex; gap: 10px; margin-top: 20px; }
         .btn-main { background: black; color: white; padding: 12px 20px; border-radius: 5px; font-size: 1rem; cursor: pointer; border: none; width: 100%; }
         .btn-secondary { background: white; color: black; border: 1px solid black; padding: 12px 20px; border-radius: 5px; font-size: 1rem; cursor: pointer; width: 100%; }
@@ -66,7 +65,7 @@
             .then(sneaker => {
                 console.log("Datos recibidos:", sneaker);
 
-                if (!sneaker || sneaker.error) {
+                if (!sneaker || sneaker.error || !sneaker.sizes) {
                     console.error("Error en la API:", sneaker.error);
                     document.body.innerHTML = "<h2>Error: No se pudo cargar la zapatilla.</h2>";
                     return;
@@ -87,7 +86,7 @@
                 });
 
                 const sizeContainer = document.getElementById("size-options");
-                const sizes = Object.keys(sneaker.prices);
+                const sizes = Array.isArray(sneaker.sizes) ? sneaker.sizes : JSON.parse(sneaker.sizes);
 
                 sizes.forEach(size => {
                     const button = document.createElement("button");
@@ -105,18 +104,17 @@
                     sizeContainer.appendChild(button);
                 });
 
+                // 📌 **Corrige la lógica para comprar y agregar al carrito**
                 document.getElementById("comprar-btn").addEventListener("click", function() {
-    if (!selectedSize) {
-        alert("Por favor, selecciona una talla antes de comprar.");
-        return;
-    }
+                    if (!selectedSize) {
+                        alert("Por favor, selecciona una talla antes de comprar.");
+                        return;
+                    }
 
-    const sneakerId = new URLSearchParams(window.location.search).get("id");
-    const sneakerPrice = document.getElementById("final-price").textContent.replace("$", "");
+                    const sneakerPrice = document.getElementById("final-price").textContent.replace("$", "");
 
-    window.location.href = `http://localhost/sneaker_store/formulario_pago.html?id=${sneakerId}&precio=${sneakerPrice}`;
-});
-
+                    window.location.href = `http://localhost/sneaker_store/formulario_pago.html?id=${sneakerId}&precio=${sneakerPrice}&size=${selectedSize}`;
+                });
 
                 document.getElementById("agregarCarrito").addEventListener("click", function () {
                     if (!selectedSize) {
@@ -125,10 +123,18 @@
                     }
 
                     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-                    carrito.push({ id: sneakerId, name: sneaker.name, image: sneaker.images[0], size: selectedSize, price: sneaker.prices[selectedSize] });
+                    carrito.push({
+                        id: sneakerId,
+                        name: document.getElementById("sneaker-name").textContent,
+                        image: document.getElementById("main-image").src,
+                        size: selectedSize,
+                        price: document.getElementById("final-price").textContent.replace("$", "")
+                    });
+
                     localStorage.setItem("carrito", JSON.stringify(carrito));
-                    alert("Producto añadido al carrito!");
+                    alert("✅ Producto añadido al carrito!");
                 });
+
             })
             .catch(error => console.error("Error obteniendo detalles:", error));
     </script>

@@ -20,41 +20,49 @@
     <div class="container">
         <h2>Iniciar Sesión</h2>
         <form id="loginForm">
-            <input type="email" name="correo" id="correo" placeholder="Correo electrónico" required>
+            <input type="text" name="usuario" id="usuario" placeholder="Correo o Usuario" required>
             <input type="password" name="password" id="password" placeholder="Contraseña" required>
             <button type="submit">Ingresar</button>
             <p>¿No tienes cuenta? <a href="http://localhost/sneaker_store/register.html">Regístrate</a></p>
-            <p><a href="http://localhost/sneaker_store/forgot_password.html">¿Olvidaste tu contraseña?</a></p> <!-- Nuevo enlace -->
+            <p><a href="http://localhost/sneaker_store/forgot_password.html">¿Olvidaste tu contraseña?</a></p>
         </form>
         <p id="error-message"></p>
     </div>
 
     <script>
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-            event.preventDefault();
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-            let correo = document.getElementById("correo").value.trim();
-            let password = document.getElementById("password").value.trim();
-            let errorMessage = document.getElementById("error-message");
+    let formData = new FormData();
+    formData.append("usuario", document.getElementById("usuario").value.trim());
+    formData.append("password", document.getElementById("password").value.trim());
 
-            fetch("http://localhost/sneaker_store/login.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: `correo=${encodeURIComponent(correo)}&password=${encodeURIComponent(password)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = "http://localhost/sneaker_store/home.html"; // Redirigir al home
-                } else {
-                    errorMessage.innerText = data.error;
-                }
-            })
-            .catch(error => {
-                errorMessage.innerText = "Error al iniciar sesión.";
-                console.error("Error:", error);
-            });
+    try {
+        let response = await fetch("http://localhost/sneaker_store/login.php", {
+            method: "POST",
+            body: formData
         });
+
+        let text = await response.text(); // 📌 **Captura el texto sin procesar**
+        console.log("Respuesta sin procesar:", text);
+
+        try {
+            let data = JSON.parse(text); // 📌 **Intenta convertirlo a JSON**
+            if (data.success) {
+                window.location.href = "http://localhost/sneaker_store/home.html";
+            } else {
+                document.getElementById("error-message").innerText = data.error;
+            }
+        } catch (error) {
+            document.getElementById("error-message").innerText = "⚠ Error en la respuesta del servidor.";
+            console.error("Error al procesar JSON:", error, text);
+        }
+    } catch (error) {
+        document.getElementById("error-message").innerText = "⚠ Error inesperado.";
+        console.error("Error:", error);
+    }
+});
+
     </script>
 </body>
 </html>
