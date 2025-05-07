@@ -68,6 +68,33 @@
         .seguimiento-btn:hover {
             background-color: #0056b3;
         }
+
+        .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px); /* Efecto de desenfoque */
+        justify-content: center;
+        align-items: center;
+        }
+    
+    .modal-contenido {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        min-width: 300px;
+        text-align: center;
+    }
+
+    .cerrar {
+        color: red;
+        font-size: 24px;
+        cursor: pointer;
+    }
     </style>
 </head>
 <body>
@@ -96,6 +123,20 @@
                 <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar sesión</button>
             </div>
             
+            <button id="abrirCarrito" class="btn btn-outline-dark">🛒 Ver Carrito (<span id="carrito-count">0</span>)</button>
+
+            <!-- Modal del carrito -->
+            <div id="modalCarrito" class="modal">
+                <div class="modal-contenido">
+                    <span class="cerrar" onclick="cerrarCarrito()">&times;</span>
+                    <h2>Carrito de Compras</h2>
+                    <div id="carrito-list"></div>
+                    <button onclick="vaciarCarrito()">Vaciar carrito</button>
+                    <button onclick="procesarPago()">🛒 Pagar ahora</button>
+                </div>
+            </div>
+            
+
         </div>
     </nav>
 
@@ -208,6 +249,80 @@
             renderizarZapatillas(filteredData);
         }
     </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        actualizarCarrito();
+    });
+    
+    function actualizarCarrito() {
+        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        document.getElementById("carrito-count").textContent = carrito.length;
+    }
+    
+    function abrirCarrito() {
+        window.location.href = "http://localhost/sneaker_store/carrito.html";
+    }
+    </script>
+    
+    
+    <script>
+        document.getElementById("abrirCarrito").addEventListener("click", function () {
+            document.getElementById("modalCarrito").style.display = "flex";
+            mostrarCarrito();
+        });
+        
+        function cerrarCarrito() {
+            document.getElementById("modalCarrito").style.display = "none";
+        }
+        
+        function mostrarCarrito() {
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            const contenedor = document.getElementById("carrito-list");
+            contenedor.innerHTML = "";
+        
+            if (carrito.length === 0) {
+                contenedor.innerHTML = "<p>El carrito está vacío.</p>";
+            } else {
+                carrito.forEach((producto, index) => {
+                    const item = document.createElement("div");
+                    item.innerHTML = `
+                        <img src="${producto.image}" alt="${producto.name}" style="width:80px; height:80px; border-radius: 5px;">
+                        <p>${producto.name} (US ${producto.size}) - $${producto.price}</p>
+                        <button onclick="eliminarProducto(${index})">Eliminar</button>
+                    `;
+                    contenedor.appendChild(item);
+                });
+            }
+        }
+        
+        function eliminarProducto(index) {
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            carrito.splice(index, 1);
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+            mostrarCarrito();
+        }
+        
+        function vaciarCarrito() {
+            localStorage.removeItem("carrito");
+            mostrarCarrito();
+        }
+        
+        function procesarPago() {
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        
+            if (carrito.length === 0) {
+                alert("El carrito está vacío. Agrega productos antes de pagar.");
+                return;
+            }
+        
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+            window.location.href = "http://localhost/sneaker_store/formulario_pago.html";
+        }
+        </script>
+        
+    
+
     <script>
         fetch("http://localhost/sneaker_store/session_status.php")
         .then(response => response.json())
@@ -225,5 +340,7 @@
         }
     </script>
     
+    <script src="http://localhost/sneaker_store/carrito.js"></script>
+
 </body>
 </html>

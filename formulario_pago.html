@@ -17,64 +17,91 @@
     <h2>Formulario de Pago</h2>
 
     <form id="form-compra">
-        <input type="text" name="nombre" placeholder="Nombre" required>
-        <input type="text" name="apellido" placeholder="Apellido" required>
-        <input type="text" name="direccion" placeholder="Dirección" required>
-        <input type="email" name="email" placeholder="Correo" required>
-        <input type="tel" name="telefono" placeholder="Teléfono" required>
-
-        <input type="hidden" name="precio" id="precio"> <!-- Precio dinámico -->
-        <input type="hidden" name="id_producto" id="id_producto"> <!-- ID del producto a pagar -->
+        <input type="text" id="nombre" placeholder="Nombre" required>
+        <input type="text" id="apellido" placeholder="Apellido" required>
+        <input type="text" id="direccion" placeholder="Dirección" required>
+        <input type="email" id="email" placeholder="Correo" required>
+        <input type="tel" id="telefono" placeholder="Teléfono" required>
 
         <button type="submit">Pagar</button>
+        <div id="detalle-productos"></div>
     </form>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const productoId = params.get('id');  
-        const precioSeleccionado = params.get('precio'); // Obtener el precio dinámico
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            let carrito = [];
 
-        // Verificar que los parámetros sean válidos antes de asignarlos
-        if (productoId && precioSeleccionado) {
-            document.getElementById('id_producto').value = productoId;
-            document.getElementById('precio').value = precioSeleccionado;
-        } else {
-            alert("Error: No se recibió información válida del producto.");
-            console.error("Datos incorrectos recibidos:", { productoId, precioSeleccionado });
-        }
+            // 📌 **Recuperar producto si viene de `detallezapatilla.html`**
+            const productoId = params.get("id");
+            const precio = params.get("precio");
 
-        // Enviar los datos del formulario a Webpay
+            if (productoId && precio) {
+                carrito.push({ productoId, precio });
+                localStorage.setItem("carritoPago", JSON.stringify(carrito));
+            }
+
+            // 📌 **Recuperar carrito si viene desde la tienda**
+            carrito = JSON.parse(localStorage.getItem("carritoPago")) || [];
+
+            if (carrito.length === 0) {
+                console.error("⚠ No se recibieron productos en la compra.");
+                alert("Error: No se recibieron productos para procesar el pago.");
+                return;
+            }
+
+            console.log("✅ Datos recibidos correctamente:", carrito);
+
+            const contenedor = document.getElementById("detalle-productos");
+            contenedor.innerHTML = carrito.map(item => `
+                <p><strong>Producto ID:</strong> ${item.productoId}, <strong>Precio:</strong> $${item.precio}</p>
+            `).join("");
+        });
+
         document.getElementById('form-compra').addEventListener('submit', function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
+            e.preventDefault();
 
-            const formData = new FormData(this);
+            const carritoPago = JSON.parse(localStorage.getItem("carritoPago")) || [];
 
-            console.log("Datos enviados:", Object.fromEntries(formData.entries())); // Debug
+            if (carritoPago.length === 0) {
+                alert("⚠ No hay productos en el carrito.");
+                console.error("❌ No se encontraron productos en el carrito de pago.");
+                return;
+            }
+
+            const formData = {
+                nombre: document.getElementById("nombre").value.trim(),
+                apellido: document.getElementById("apellido").value.trim(),
+                direccion: document.getElementById("direccion").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                telefono: document.getElementById("telefono").value.trim(),
+                carrito: carritoPago
+            };
+
+            if (!formData.nombre || !formData.apellido || !formData.direccion || !formData.email || !formData.telefono) {
+                alert("⚠ Debes completar todos los campos.");
+                return;
+            }
+
+            console.log("📌 Enviando datos a Webpay:", formData);
 
             fetch('http://localhost/sneaker_store/webpay_init.php', {
                 method: 'POST',
-                body: formData
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
             })
-            .then(response => response.text())
-            .then(text => {
-                try {
-                    return JSON.parse(text);
-                } catch (error) {
-                    console.error("Respuesta inesperada del servidor:\n", text);
-                    throw new Error("Error de formato en la respuesta del servidor.");
-                }
-            })
+            .then(response => response.json())
             .then(data => {
                 if (data.url && data.token) {
                     window.location.href = `${data.url}?token_ws=${data.token}`;
                 } else {
-                    alert('Error al iniciar el pago: respuesta incompleta.');
-                    console.error('Respuesta recibida:', data);
+                    alert('⚠ Error al iniciar el pago.');
+                    console.error('⚠ Respuesta recibida:', data);
                 }
             })
             .catch(error => {
-                console.error('Error al procesar el pago:', error);
-                alert('Ocurrió un problema al iniciar el pago. Revisa la consola para más detalles.');
+                console.error('❌ Error al procesar el pago:', error);
+                alert('⚠ Ocurrió un problema al iniciar el pago.');
             });
         });
     </script>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Content-Type: application/json; charset=UTF-8");
@@ -47,7 +48,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Insertar usuario en la base de datos
         $stmt = $conn->prepare("INSERT INTO usuarios (nombre, correo, fecha_nacimiento, contrasena) VALUES (?, ?, ?, ?)");
         if ($stmt->execute([$nombre, $correo, $fecha_nacimiento, $contrasenaHash])) {
-            echo json_encode(["success" => "Registro exitoso! Ahora puedes iniciar sesión.", "redirect" => "http://localhost/sneaker_store/login.html"]);
+            $_SESSION["usuario"] = ["nombre" => $nombre, "correo" => $correo];
+
+            // 📌 **Guardar carrito en sesión**
+            if (!isset($_SESSION["carrito"]) || empty($_SESSION["carrito"])) {
+                echo json_encode(["error" => "No hay productos en el carrito."]);
+                exit;
+            }
+
+            $carrito = $_SESSION["carrito"];
+            $total = array_reduce($carrito, function($sum, $producto) {
+                return $sum + $producto["prices"]["7"];
+            }, 0);
+
+            $_SESSION["total_pago"] = $total;
+
+            echo json_encode([
+                "success" => "Registro exitoso! Redirigiendo a Webpay...",
+                "redirect" => "http://localhost/sneaker_store/webpay_init.php"
+            ]);
         } else {
             echo json_encode(["error" => "Error al registrar usuario"]);
         }
