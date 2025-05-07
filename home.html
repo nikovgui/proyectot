@@ -112,8 +112,10 @@
                     <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
                     <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
                     <button class="seguimiento-btn" onclick="window.location.href='http://localhost/sneaker_store/seguimiento.html'">Seguir mi pedido</button>
-                    <button id="admin-button" onclick="window.location.href='admin_dashboard.php'">Administrar Zapatillas</button>
+                    <button id="admin-button" onclick="window.location.href='admin_dashboard.php'" style="display: none;">Administrar Zapatillas</button>
                 </ul>
+
+                
                 <!-- 🔍 Input de búsqueda en el navbar -->
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" id="navbar-search" placeholder="Buscar zapatillas..." onkeyup="filtrarZapatillas()">
@@ -232,6 +234,8 @@
             });
         }
 
+        
+        
         function filtrarZapatillas() {
             const searchText = document.getElementById("navbar-search").value.toLowerCase().trim();
             const selectedBrand = document.getElementById("brand-filter").value.toLowerCase().trim();
@@ -250,6 +254,19 @@
             renderizarZapatillas(filteredData);
         }
     </script>
+<!--boton visible solo para el admin-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("http://localhost/sneaker_store/check_admin.php")
+            .then(response => response.json())
+            .then(data => {
+                if (data.admin) {
+                    document.getElementById("admin-button").style.display = "block";
+                }
+            });
+    });
+</script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {

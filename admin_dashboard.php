@@ -19,19 +19,109 @@ $sneakers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Administración - Inventario</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; }
-        .container { max-width: 800px; margin: 50px auto; background: white; padding: 20px; border-radius: 10px; 
-                     box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
-        .sneaker { display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd; }
-        .sneaker img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
-        .btn { padding: 5px 10px; cursor: pointer; border-radius: 5px; }
-        .delete { background: red; color: white; border: none; }
-        .delete-size { background: orange; color: white; border: none; }
+        /* 📌 Estilos generales */
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f4; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1); 
+        }
+
+        /* 📌 Botón de volver */
+        .back-btn { 
+            font-size: 24px; 
+            font-weight: bold; 
+            border: none; 
+            background: none; 
+            cursor: pointer; 
+            color: #333; 
+            padding: 10px; 
+            position: absolute; 
+            top: 20px; 
+            left: 20px; 
+            transition: color 0.3s ease; 
+        }
+
+        .back-btn:hover { 
+            color: #ff4500; 
+        }
+
+        /* 📌 Encabezado */
+        h2 { 
+            text-align: center; 
+            color: #333; 
+            margin-bottom: 20px; 
+        }
+
+        /* 📌 Zapatillas en el inventario */
+        .sneaker { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 15px; 
+            border-bottom: 1px solid #ddd; 
+            background: #fff; 
+            border-radius: 8px; 
+            margin-bottom: 10px; 
+            transition: box-shadow 0.3s ease; 
+        }
+
+        .sneaker:hover { 
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2); 
+        }
+
+        .sneaker img { 
+            width: 60px; 
+            height: 60px; 
+            object-fit: cover; 
+            border-radius: 5px; 
+        }
+
+        /* 📌 Botones de acción */
+        .btn { 
+            padding: 8px 12px; 
+            cursor: pointer; 
+            border-radius: 5px; 
+            font-size: 14px; 
+            border: none; 
+        }
+
+        .delete { 
+            background: red; 
+            color: white; 
+        }
+
+        .delete:hover { 
+            background: darkred; 
+        }
+
+        .delete-size { 
+            background: orange; 
+            color: white; 
+        }
+
+        .delete-size:hover { 
+            background: darkorange; 
+        }
     </style>
 </head>
 <body>
+
+    <!-- 📌 Botón de volver -->
+    <button class="back-btn" onclick="window.history.back()"><i class="fa-solid fa-backward"></i></button>
+
     <div class="container">
         <h2>Inventario de Zapatillas</h2>
+
         <?php foreach ($sneakers as $sneaker): ?>
             <div class="sneaker">
                 <img src="<?= json_decode($sneaker['images'])[0] ?>" alt="Imagen">
@@ -70,5 +160,7 @@ $sneakers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         }
     </script>
+    <script src="https://kit.fontawesome.com/9e7abfd42a.js" crossorigin="anonymous"></script>
+
 </body>
 </html>
