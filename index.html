@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OGKicks - Tienda Premium de Zapatillas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variables CSS */
+        :root {
+            --primary-color: #ff4d4d;
+            --secondary-color: #222;
+            --accent-color: #00c2cb;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset y estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: #ff3333;
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background-color: var(--primary-color);
+        }
+
+        /* Header y Navegación */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .search-container {
+            position: relative;
+            width: 350px;
+        }
+
+        #search-bar {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        #search-bar:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .cart-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: var(--secondary-color);
+            padding: 8px 15px;
+            border-radius: 50px;
+            color: var(--white);
+            transition: var(--transition);
+        }
+
+        .cart-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        .cart-count {
+            background-color: var(--white);
+            color: var(--secondary-color);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1552346154-21d32810aba3?ixlib=rb-4.0.3') no-repeat center/cover;
+            height: 500px;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Categorías */
+        .categories {
+            padding: 60px 0;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .category-img {
+            height: 150px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .category-name {
+            padding: 15px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Carousel */
+        .carousel-section {
+            padding: 60px 0;
+            background-color: var(--white);
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item {
+            min-width: 300px;
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .carousel-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .carousel-content {
+            padding: 15px;
+        }
+
+        .carousel-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .carousel-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .carousel-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .carousel-btn {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .carousel-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* Productos destacados */
+        .featured {
+            padding: 60px 0;
+        }
+
+        .featured-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .featured-filters {
+            display: flex;
+            gap: 15px;
+        }
+
+        .filter-btn {
+            background-color: transparent;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .filter-btn:hover:not(.active) {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .sneaker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .sneaker-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .sneaker-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .sneaker-img-container {
+            position: relative;
+            height: 200px;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .sneaker-img {
+            max-width: 100%;
+            max-height: 160px;
+            transition: var(--transition);
+        }
+
+        .sneaker-card:hover .sneaker-img {
+            transform: scale(1.05);
+        }
+
+        .sneaker-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .sneaker-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--white);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--secondary-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .sneaker-content {
+            padding: 15px;
+        }
+
+        .sneaker-brand {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .sneaker-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 42px;
+        }
+
+        .sneaker-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sneaker-price {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .add-to-cart {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* Banner */
+        .banner {
+            padding: 80px 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3') no-repeat center/cover;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .banner-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .banner-text {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .banner-btn {
+            background-color: var(--white);
+            color: var(--secondary-color);
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 50px;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .banner-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        /* Testimonios */
+        .testimonials {
+            padding: 60px 0;
+            background-color: var(--white);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--light-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-content {
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            font-weight: 600;
+        }
+
+        .author-info p {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .stars {
+            color: #ffc107;
+            margin-top: 5px;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            padding: 60px 0;
+            background-color: var(--secondary-color);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .newsletter-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .newsletter-text {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.8;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px 0 0 50px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .newsletter-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 0 50px 50px 0;
+            padding: 0 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-btn:hover {
+            background-color: #ff3333;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111;
+            color: #ddd;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--white);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background-color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .search-container {
+                width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                height: 400px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .banner-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                height: 350px;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .sneaker-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .newsletter-input,
+            .newsletter-btn {
+                border-radius: 50px;
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">OG<span>Kicks</span></a>
+                
+                <div class="search-container">
+                    <input type="search" id="search-bar" placeholder="Buscar zapatillas...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
+                <div class="nav-links">
+                    <a href="#" class="nav-link">Inicio</a>
+                    <a href="#" class="nav-link">Hombre</a>
+                    <a href="#" class="nav-link">Mujer</a>
+                    <a href="#" class="nav-link">Niños</a>
+                    <a href="#" class="nav-link">Ofertas</a>
+                </div>
+                
+                <a href="#" class="cart-btn" id="abrirCarrito">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="carrito-count">0</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Descubre tu estilo con nuestras zapatillas exclusivas</h1>
+                <p class="hero-subtitle">Las mejores marcas y modelos limitados al mejor precio</p>
+                <a href="#featured" class="btn">Explorar Colección</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categorías -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Categorías</h2>
+            <div class="category-grid">
+                <a href="#" class="category-card">
+                    <img src="/api/placeholder/400/150" alt="Categoría Running" class="category-img">
+                    <div class="category-name">Running</div>
+                </a>
+                <a href="#" class="category-card">
+                    <img src="/api/placeholder/400/150" alt="Categoría Basketball" class="category-img">
+                    <div class="category-name">Basketball</div>
+                </a>
+                <a href="#" class="category-card">
+                    <img src="/api/placeholder/400/150" alt="Categoría Casual" class="category-img">
+                    <div class="category-name">Casual</div>
+                </a>
+                <a href="#" class="category-card">
+                    <img src="/api/placeholder/400/150" alt="Categoría Training" class="category-img">
+                    <div class="category-name">Training</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carousel -->
+    <section class="carousel-section">
+        <div class="container">
+            <h2 class="section-title">Últimos Lanzamientos</h2>
+            <div class="carousel-container">
+                <div class="carousel-track" id="carousel">
+                    <!-- Se cargarán dinámicamente -->
+                </div>
+                <div class="carousel-buttons">
+                    <button class="carousel-btn" id="prev-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-btn" id="next-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productos Destacados -->
+    <section class="featured" id="featured">
+        <div class="container">
+            <div class="featured-header">
+                <h2 class="section-title">Zapatillas Destacadas</h2>
+                <div class="featured-filters">
+                    <button class="filter-btn active" data-filter="all">Todos</button>
+                    <button class="filter-btn" data-filter="hombre">Hombre</button>
+                    <button class="filter-btn" data-filter="mujer">Mujer</button>
+                    <button class="filter-btn" data-filter="ninos">Niños</button>
+                </div>
+            </div>
+            <div class="sneaker-grid" id="sneaker-grid">
+                <!-- Se cargarán dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Banner -->
+    <section class="banner">
+        <div class="container">
+            <h2 class="banner-title">Únete al club OGKicks</h2>
+            <p class="banner-text">Obtén acceso exclusivo a descuentos especiales, releases anticipados y eventos privados</p>
+            <a href="#" class="banner-btn">Únete Ahora</a>
+        </div>
+    </section>
+
+    <!-- Testimonios -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"He comprado varias zapatillas en OGKicks y siempre quedo satisfecho. La calidad es excepcional y el envío es rápido."</p>
+                    <div class="testimonial-author">
+                        <img src="/api/placeholder/100/100" alt="Cliente" class="author-img">
+                        <div class="author-info">
+                            <h4>Carlos Mendoza</h4>
+                            <p>Cliente desde 2021</p>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"La mejor tienda para conseguir modelos exclusivos. Su servicio al cliente es increíble, resolvieron todas mis dudas."</p>
+                    <div class="testimonial-author">
+                        <img src="/api/placeholder/100/100" alt="Cliente" class="author-img">
+                        <div class="author-info">
+                            <h4>Laura Sánchez</h4>
+                            <p>Cliente desde 2022</p>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"Encontré unos Air Jordan que buscaba hace tiempo. Los precios son justos y todo llegó perfectamente empacado."</p>
+                    <div class="testimonial-author">
+                        <img src="/api/placeholder/100/100" alt="Cliente" class="author-img">
+                        <div class="author-info">
+                            <h4>Miguel Torres</h4>
+                            <p>Cliente desde 2020</p>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <h2 class="newsletter-title">Mantente informado</h2>
+            <p class="newsletter-text">Suscríbete a nuestro newsletter y recibe las últimas novedades, lanzamientos y ofertas exclusivas.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Tu correo electrónico" class="newsletter-input" required>
+                <button type="submit" class="newsletter-btn">Suscribirse</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>OGKicks</h3>
+                    <p>Tu tienda de confianza para conseguir los mejores modelos de zapatillas exclusivas, con envíos a todo el país y garantía de autenticidad.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Enlaces</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#">Zapatillas Hombre</a></li>
+                        <li><a href="#">Zapatillas Mujer</a></li>
+                        <li><a href="#">Zapatillas Niños</a></li>
+                        <li><a href="#">Ofertas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Ayuda</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Cómo comprar</a></li>
+                        <li><a href="#">Envíos y entregas</a></li>
+                        <li><a href="#">Devoluciones</a></li>
+                        <li><a href="#">Tallas y medidas</a></li>
+                        <li><a href="#">Preguntas frecuentes</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contacto</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Principal #123, Ciudad</li>
+                        <li><i class="fas fa-phone"></i> +34 123 456 789</li>
+                        <li><i class="fas fa-envelope"></i> info@ogkicks.com</li>
+                        <li><i class="fas fa-clock"></i> Lun-Vie: 9am - 8pm</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 OGKicks - Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Carrito contador
+            let carritoCount = 0;
+            const carritoCountElement = document.getElementById("carrito-count");
+            
+            // Función para cargar las zapatillas desde la API
+            function cargarZapatillas() {
+                fetch("http://localhost/sneaker_store/get_sneakers.php")
+                    .then(response => response.json())
+                    .then(data => {
+                        cargarCarrusel(data.slice(0, 8)); // Primeras 8 zapatillas para el carrusel
+                        renderizarZapatillas(data);
+                    })
+                    .catch(error => {
+                        console.error("Error cargando zapatillas:", error);
+                        // Cargar datos de muestra en caso de error
+                        cargarDatosMuestra();
+                    });
+            }
+            
+            // Función para cargar datos de muestra en caso de error
+            function cargarDatosMuestra() {
+                const datosMuestra = [
+                    {
+                        id: 1,
+                        name: "Nike Air Max 90",
+                        brand: "Nike",
+                        category: "running",
+                        prices: {"7": 129.99, "8": 129.99, "9": 129.99},
+                        images: ["/api/placeholder/400/300"],
+                        isNew: true,
+                        discount: 0
+                    },
+                    {
+                        id: 2,
+                        name: "Adidas Ultraboost 22",
+                        brand: "Adidas",
+                        category: "running",
+                        prices: {"7": 179.99, "8": 179.99, "9": 179.99},
+                        images: ["/api/placeholder/400/300"],
+                        isNew: true,
+                        discount: 15
+                    },
+                    {
+                        id: 3,
+                        name: "Jordan 1 Retro High",
+                        brand: "Nike",
+                        category: "basketball",
+                        prices: {"7": 189.99, "8": 189.99, "9": 189.99},
+                        images: ["/api/placeholder/400/300"],
+                        isNew: false,
+                        discount: 0
+                    },
+                    {
+                        id: 4,
+                        name: "Puma RS-X",
+                        brand: "Puma",
+                        category: "casual",
+                        prices: {"7": 119.99, "8": 119.99, "9": 119.99},
+                        images: ["/api/placeholder/400/300"],
+                        isNew: false,
+                        discount: 20
+                    },
+                    {
+                        id: 5,
+                        name: "New Balance 574",
+                        brand: "New Balance",
+                        category: "casual",
+                        prices: {"7": 109.99, "8": 109.99, "9": 109.99},
+                        images: ["/api/placeholder/400/300"],
+                        isNew: false,
+                        discount: 0
+                    },
+                    {
+                        id: 6,
+                        name: "Converse Chuck Taylor All Star",
+                        brand: "Converse",
+                        category: "casual",
+                        prices: {"7": 69.99, "8": 69.99, "9": 69.99},
+                        images: ["/api/placeholder/400/300"],
+                        isNew: false,
+                        discount: 10
+                    },
+                    {
+                        id: 7,
+                        name: "Vans Old Skool",
+                        brand: "Vans",
+                        category: "casual",
+                        prices: {"7": 79.99, "8": 79.99, "9": 79.99},
+                        images: ["/api/placeholder/400/300"],
+                        isNew: true,
+                        discount: 0
+                    },
+                    {
+                        id: 8,
+                        name: "Reebok Classic Leather",
+                        brand: "Reebok",
+                        category: "casual",
+                        prices: {"7": 89.99, "8": 89.99, "9": 89.99},
+                        images: ["/api/placeholder/400/300"],
+                        isNew: false,
+                        discount: 25
+                    }
+                ];
+                
+                cargarCarrusel(datosMuestra);
+                renderizarZapatillas(datosMuestra);
+            }
+            
+            // Función para cargar zapatillas en el carrusel
+            function cargarCarrusel(zapatillas) {
+                const carrusel = document.getElementById("carousel");
+                carrusel.innerHTML = "";
+                
+                zapatillas.forEach(zapatilla => {
+                    const precioBase = zapatilla.prices["7"];
+                    const precioFinal = zapatilla.discount ? 
+                        (precioBase - (precioBase * zapatilla.discount / 100)).toFixed(2) : 
+                        precioBase;
+                    
+                    const item = document.createElement("div");
+                    item.className = "carousel-item";
+                    item.innerHTML = `
+                        <img src="${zapatilla.images[0]}" alt="${zapatilla.name}" class="carousel-img">
+                        <div class="carousel-content">
+                            <p class="carousel-brand">${zapatilla.brand}</p>
+                            <h3 class="carousel-title">${zapatilla.name}</h3>
+                            <p class="carousel-price">
+                                ${zapatilla.discount ? 
+                                    `<span style="text-decoration: line-through; color: #888; margin-right: 8px;">${precioBase}</span>` : ''
+                                }
+                                ${precioFinal}
+                            </p>
+                            <button class="btn add-to-cart-btn" data-id="${zapatilla.id}">Agregar al carrito</button>
+                        </div>
+                    `;
+                    carrusel.appendChild(item);
+                });
+                
+                // Event listeners para botones de carrusel
+                document.getElementById("next-btn").addEventListener("click", moverCarruselDerecha);
+                document.getElementById("prev-btn").addEventListener("click", moverCarruselIzquierda);
+                
+                // Agregar evento a botones de agregar al carrito
+                document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+                    btn.addEventListener("click", agregarAlCarrito);
+                });
+            }
+            
+            // Función para mover el carrusel a la derecha
+            function moverCarruselDerecha() {
+                const carrusel = document.getElementById("carousel");
+                const itemWidth = carrusel.querySelector(".carousel-item").offsetWidth + 20; // 20px es el gap
+                carrusel.style.transform = `translateX(-${itemWidth}px)`;
+                
+                setTimeout(() => {
+                    carrusel.style.transition = "none";
+                    carrusel.appendChild(carrusel.firstElementChild);
+                    carrusel.style.transform = "translateX(0)";
+                    setTimeout(() => {
+                        carrusel.style.transition = "transform 0.5s ease";
+                    }, 50);
+                }, 500);
+            }
+            
+            // Función para mover el carrusel a la izquierda
+            function moverCarruselIzquierda() {
+                const carrusel = document.getElementById("carousel");
+                carrusel.style.transition = "none";
+                carrusel.insertBefore(carrusel.lastElementChild, carrusel.firstElementChild);
+                
+                const itemWidth = carrusel.querySelector(".carousel-item").offsetWidth + 20; // 20px es el gap
+                carrusel.style.transform = `translateX(-${itemWidth}px)`;
+                
+                setTimeout(() => {
+                    carrusel.style.transition = "transform 0.5s ease";
+                    carrusel.style.transform = "translateX(0)";
+                }, 50);
+            }
+            
+            // Función para renderizar las zapatillas en la grilla
+            function renderizarZapatillas(zapatillas) {
+                const container = document.getElementById("sneaker-grid");
+                container.innerHTML = "";
+                
+                zapatillas.forEach(zapatilla => {
+                    const precioBase = zapatilla.prices["7"];
+                    const precioFinal = zapatilla.discount ? 
+                        (precioBase - (precioBase * zapatilla.discount / 100)).toFixed(2) : 
+                        precioBase;
+                    
+                    const card = document.createElement("div");
+                    card.className = "sneaker-card";
+                    card.setAttribute("data-category", zapatilla.category);
+                    
+                    card.innerHTML = `
+                        <div class="sneaker-img-container">
+                            ${zapatilla.isNew ? '<span class="sneaker-badge">Nuevo</span>' : ''}
+                            ${zapatilla.discount ? `<span class="sneaker-badge" style="background-color: #f44336;">-${zapatilla.discount}%</span>` : ''}
+                            <img src="${zapatilla.images[0]}" alt="${zapatilla.name}" class="sneaker-img">
+                            <div class="sneaker-actions">
+                                <button class="action-btn wishlist-btn" data-id="${zapatilla.id}">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="action-btn view-btn" data-id="${zapatilla.id}">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="sneaker-content">
+                            <p class="sneaker-brand">${zapatilla.brand}</p>
+                            <h3 class="sneaker-name">${zapatilla.name}</h3>
+                            <div class="sneaker-footer">
+                                <div class="sneaker-price">
+                                    ${zapatilla.discount ? 
+                                        `<span style="text-decoration: line-through; color: #888; font-size: 0.8rem; margin-right: 5px;">${precioBase}</span>` : ''
+                                    }
+                                    ${precioFinal}
+                                </div>
+                                <button class="add-to-cart" data-id="${zapatilla.id}">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+                
+                // Event listeners para los filtros
+                document.querySelectorAll(".filter-btn").forEach(btn => {
+                    btn.addEventListener("click", filtrarZapatillas);
+                });
+                
+                // Event listeners para botones de agregar al carrito
+                document.querySelectorAll(".add-to-cart").forEach(btn => {
+                    btn.addEventListener("click", agregarAlCarrito);
+                });
+                
+                // Event listeners para botones de wishlist
+                document.querySelectorAll(".wishlist-btn").forEach(btn => {
+                    btn.addEventListener("click", agregarAWishlist);
+                });
+                
+                // Event listeners para botones de ver detalle
+                document.querySelectorAll(".view-btn").forEach(btn => {
+                    btn.addEventListener("click", verDetalle);
+                });
+            }
+            
+            // Función para filtrar zapatillas
+            function filtrarZapatillas(e) {
+                const filterBtn = e.target;
+                const filter = filterBtn.getAttribute("data-filter");
+                
+                // Actualizar botones activos
+                document.querySelectorAll(".filter-btn").forEach(btn => {
+                    btn.classList.remove("active");
+                });
+                filterBtn.classList.add("active");
+                
+                // Filtrar zapatillas
+                const cards = document.querySelectorAll(".sneaker-card");
+                cards.forEach(card => {
+                    if (filter === "all" || card.getAttribute("data-category") === filter) {
+                        card.style.display = "block";
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+            }
+            
+            // Función para agregar al carrito
+            function agregarAlCarrito(e) {
+                const btn = e.currentTarget;
+                const id = btn.getAttribute("data-id");
+                
+                // Incrementar contador del carrito
+                carritoCount++;
+                carritoCountElement.textContent = carritoCount;
+                
+                // Animación para el botón
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                btn.style.backgroundColor = "#4caf50";
+                
+                setTimeout(() => {
+                    if (btn.classList.contains("add-to-cart")) {
+                        btn.innerHTML = '<i class="fas fa-plus"></i>';
+                        btn.style.backgroundColor = "";
+                    } else {
+                        btn.textContent = "Agregar al carrito";
+                        btn.style.backgroundColor = "";
+                    }
+                }, 1500);
+                
+                // Aquí puedes agregar el código para guardar en localStorage o enviar a tu backend
+                console.log(`Producto ${id} agregado al carrito`);
+            }
+            
+            // Función para agregar a wishlist
+            function agregarAWishlist(e) {
+                const btn = e.currentTarget;
+                
+                // Cambiar icono
+                const icon = btn.querySelector("i");
+                if (icon.classList.contains("far")) {
+                    icon.classList.remove("far");
+                    icon.classList.add("fas");
+                    icon.style.color = "#ff4d4d";
+                } else {
+                    icon.classList.remove("fas");
+                    icon.classList.add("far");
+                    icon.style.color = "";
+                }
+                
+                const id = btn.getAttribute("data-id");
+                console.log(`Producto ${id} ${icon.classList.contains("fas") ? "agregado a" : "eliminado de"} la wishlist`);
+            }
+            
+            // Función para ver detalle
+            function verDetalle(e) {
+                const id = e.currentTarget.getAttribute("data-id");
+                window.location.href = `detallezapatilla.html?id=${id}`;
+            }
+            
+            // Búsqueda de zapatillas
+            const searchBar = document.getElementById("search-bar");
+            searchBar.addEventListener("keyup", function() {
+                const searchTerm = this.value.toLowerCase();
+                const cards = document.querySelectorAll(".sneaker-card");
+                
+                cards.forEach(card => {
+                    const name = card.querySelector(".sneaker-name").textContent.toLowerCase();
+                    const brand = card.querySelector(".sneaker-brand").textContent.toLowerCase();
+                    
+                    if (name.includes(searchTerm) || brand.includes(searchTerm)) {
+                        card.style.display = "block";
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+            });
+            
+            // Inicializar
+            cargarZapatillas();
+            
+            // Auto rotación del carrusel cada 5 segundos
+            setInterval(moverCarruselDerecha, 5000);
+        });
+    </script>
+</body>
+</html>

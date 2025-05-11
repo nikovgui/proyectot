@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ofertas - OGKicks</title>
+    <style>
+        body { font-family: "Poppins", sans-serif; background-color: #f4f4f4; text-align: center; }
+        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        .sneaker-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .sneaker { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .sneaker img { width: 180px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>🔥 ¡Ofertas de Zapatillas! 🔥</h2>
+    <div class="sneaker-container" id="oferta-list"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("http://localhost/sneaker_store/get_sneakers.php")
+                .then(response => response.json())
+                .then(data => {
+                    const ofertas = data.filter(sneaker => sneaker.en_oferta);
+                    renderizarZapatillas(ofertas, "oferta-list");
+                })
+                .catch(error => console.error("Error cargando ofertas:", error));
+        });
+
+        function renderizarZapatillas(data, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = "";
+
+            data.forEach(sneaker => {
+                container.innerHTML += `
+                    <div class="sneaker">
+                        <h3>${sneaker.name}</h3>
+                        <a href="detallezapatilla.html?id=${sneaker.id}">
+                            <img src="${sneaker.images[0]}" alt="${sneaker.name}">
+                        </a>
+                        <p><strong>🔥 Precio en oferta: $${sneaker.prices["7"]}</strong></p>
+                    </div>
+                `;
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,6 +1,8 @@
 <?php
 session_start();
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+
 
 // 📌 **Habilitar errores para depuración**
 error_reporting(E_ALL);

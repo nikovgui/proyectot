@@ -11,6 +11,7 @@ if (!isset($_SESSION["admin"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
     $sizes_prices = [];
+    
 
     // 📌 **Recopilar tallas y precios**
     foreach ($_POST["sizes"] as $size) {
@@ -60,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<script>alert('⚠ Error al agregar zapatilla.');</script>";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -114,6 +116,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label><input type="checkbox" name="sizes[]" value="11"> 11</label>
                     <input type="number" name="prices[11]" placeholder="$" min="0">
                 </div>
+                <label>
+                    <input type="checkbox" name="en_oferta" value="1"> Marcar como oferta
+                </label>
+
             </div>
 
             <input type="file" name="images[]" multiple accept="image/*" id="image-input">
@@ -123,6 +129,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("http://localhost/sneaker_store/check_admin.php")
+        .then(response => response.json())
+        .then(data => {
+            console.log("Admin status:", data.admin); // 📌 Agrega esto para depuración
+            if (data.admin) {
+                document.getElementById("add-sneaker-button").style.display = "block";
+            }
+        })
+        .catch(error => console.error("Error verificando administrador:", error));
+});
+
+
+
         document.getElementById("image-input").addEventListener("change", function(event) {
             let previewContainer = document.getElementById("preview");
             previewContainer.innerHTML = ""; // Limpia imágenes previas
