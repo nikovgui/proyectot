@@ -17,150 +17,299 @@ $sneakers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Administración - Inventario</title>
+    <title>Admin - OGKicks</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/9e7abfd42a.js" crossorigin="anonymous"></script>
     <style>
-        /* 📌 Estilos generales */
-        body { 
-            font-family: Arial, sans-serif; 
-            background-color: #f4f4f4; 
-            margin: 0; 
-            padding: 20px; 
-        }
-        
-        .container { 
-            max-width: 900px; 
-            margin: 0 auto; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 10px; 
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.1); 
+        :root {
+            --primary-color: #1e3a8a;
+            --accent-color: #ff6b6b;
+            --background-light: #f8fafc;
+            --text-dark: #1e293b;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
 
-        /* 📌 Botón de volver */
-        .back-btn { 
-            font-size: 24px; 
-            font-weight: bold; 
-            border: none; 
-            background: none; 
-            cursor: pointer; 
-            color: #333; 
-            padding: 10px; 
-            position: absolute; 
-            top: 20px; 
-            left: 20px; 
-            transition: color 0.3s ease; 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-light);
+            color: var(--text-dark);
         }
 
-        .back-btn:hover { 
-            color: #ff4500; 
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 12px 20px;
         }
 
-        /* 📌 Encabezado */
-        h2 { 
-            text-align: center; 
-            color: #333; 
-            margin-bottom: 20px; 
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color);
         }
 
-        /* 📌 Zapatillas en el inventario */
-        .sneaker { 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 15px; 
-            border-bottom: 1px solid #ddd; 
-            background: #fff; 
-            border-radius: 8px; 
-            margin-bottom: 10px; 
-            transition: box-shadow 0.3s ease; 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
         }
 
-        .sneaker:hover { 
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.2); 
+        .sneaker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
         }
 
-        .sneaker img { 
-            width: 60px; 
-            height: 60px; 
-            object-fit: cover; 
-            border-radius: 5px; 
+        .sneaker-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
         }
 
-        /* 📌 Botones de acción */
-        .btn { 
-            padding: 8px 12px; 
-            cursor: pointer; 
-            border-radius: 5px; 
-            font-size: 14px; 
-            border: none; 
+        .sneaker-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .delete { 
-            background: red; 
-            color: white; 
+        .sneaker-image {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f5f9;
         }
 
-        .delete:hover { 
-            background: darkred; 
+        .sneaker-image img {
+            max-height: 85%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
         }
 
-        .delete-size { 
-            background: orange; 
-            color: white; 
+        .sneaker-card:hover .sneaker-image img {
+            transform: scale(1.1);
         }
 
-        .delete-size:hover { 
-            background: darkorange; 
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        .modal img {
+            width: 180px;
+            border-radius: 10px;
+        }
+
+        .size-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .btn-accent, .btn-danger {
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: red;
+            color: white;
+        }
+
+        .close {
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <!-- 📌 Botón de volver -->
-    <button class="back-btn" onclick="window.history.back()"><i class="fa-solid fa-arrow-left"></i></button>
-
+<nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-        <h2>Inventario de Zapatillas</h2>
+        <a class="navbar-brand" href="home.html">OGKicks</a>
+    </div>
+</nav>
 
+<div class="container">
+    <h2>Administración de Zapatillas</h2>
+    <div class="sneaker-grid">
         <?php foreach ($sneakers as $sneaker): ?>
-            <div class="sneaker">
-                <img src="<?= json_decode($sneaker['images'])[0] ?>" alt="Imagen">
-                <div>
-                    <h3><?= $sneaker['name'] ?></h3>
-                    <?php 
-                        // 📌 **Verifica que `sizes` sea un array válido antes de usar `implode()`**
-                        $tallas = json_decode($sneaker["sizes"], true) ?: [];
-                        $tallasTexto = !empty($tallas) ? implode(", ", (array) $tallas) : "No disponibles";
-                    ?>
-                    <p><strong>Tallas disponibles:</strong> <?= $tallasTexto ?></p>
+            <div class="sneaker-card" onclick="mostrarModal(<?= $sneaker['id'] ?>)">
+                <div class="sneaker-image">
+                    <img src="<?= json_decode($sneaker['images'])[0] ?>" alt="<?= $sneaker['name'] ?>">
                 </div>
-                <button class="delete" onclick="eliminarZapatilla(<?= $sneaker['id'] ?>)">Eliminar zapatilla</button>
-            </div>
-            <div>
-                <p><strong>Eliminar talla específica:</strong></p>
-                <?php foreach ($tallas as $size): ?>
-                    <button class="delete-size" onclick="eliminarTalla(<?= $sneaker['id'] ?>, '<?= $size ?>')">Eliminar talla <?= $size ?></button>
-                <?php endforeach; ?>
+                <h3 class="sneaker-name"><?= $sneaker['name'] ?></h3>
             </div>
         <?php endforeach; ?>
     </div>
+</div>
 
-    <script>
-        function eliminarZapatilla(id) {
-            if (confirm("¿Seguro que deseas eliminar esta zapatilla?")) {
-                fetch(`eliminar_sneaker.php?id=${id}`, { method: "DELETE" })
-                .then(() => location.reload());
-            }
+<div id="sneakerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h2 id="modal-title"></h2>
+        <img id="modal-image" src="" alt="Imagen Zapatilla">
+        <div id="modal-sizes"></div>
+        <input type="number" id="new-size" placeholder="Talla">
+        <input type="number" id="new-price" placeholder="Precio">
+        <button class="btn-accent" onclick="agregarTalla()">Agregar Talla</button>
+        <button class="btn-danger" onclick="eliminarZapatilla()">Eliminar Zapatilla</button>
+    </div>
+</div>
+
+<script>
+    let sneakersData = [];
+    let selectedSneakerId = null;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        cargarSneakers();
+    });
+
+    function cargarSneakers() {
+        fetch("http://localhost/sneaker_store/get_sneakers.php")
+            .then(response => response.json())
+            .then(data => {
+                sneakersData = data;
+            })
+            .catch(error => console.error("Error cargando zapatillas:", error));
+    }
+
+    function mostrarModal(id) {
+        const sneaker = sneakersData.find(s => s.id === id);
+        if (!sneaker) {
+            console.error(`No se encontró la zapatilla con ID ${id}`);
+            return;
         }
 
-        function eliminarTalla(id, size) {
-            if (confirm(`¿Eliminar talla ${size}?`)) {
-                fetch(`eliminar_talla.php?id=${id}&size=${size}`, { method: "DELETE" })
-                .then(() => location.reload());
-            }
+        document.getElementById("modal-title").innerText = sneaker.name;
+        document.getElementById("modal-image").src = sneaker.images[0];
+
+        const sizesContainer = document.getElementById("modal-sizes");
+        sizesContainer.innerHTML = "<h3>Tallas Disponibles</h3>";
+        Object.entries(sneaker.prices).forEach(([size, price]) => {
+            sizesContainer.innerHTML += `
+                <div class="size-option">
+                    <span>Talla ${size} - $${price}</span>
+                    <button class="btn-danger" onclick="eliminarTalla('${id}', '${size}')">Eliminar</button>
+                </div>
+            `;
+        });
+
+        selectedSneakerId = sneaker.id;
+        document.getElementById("sneakerModal").style.display = "flex";
+    }
+
+    function cerrarModal() {
+        document.getElementById("sneakerModal").style.display = "none";
+    }
+
+    function agregarTalla() {
+        const size = document.getElementById("new-size").value;
+        const price = document.getElementById("new-price").value;
+        if (!size || !price) {
+            alert("Ingresa talla y precio.");
+            return;
         }
-    </script>
-    <script src="https://kit.fontawesome.com/9e7abfd42a.js" crossorigin="anonymous"></script>
+
+        const formData = new FormData();
+        formData.append("id", selectedSneakerId);
+        formData.append("size", size);
+        formData.append("price", price);
+
+        fetch("agregar_talla.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Recargar datos y actualizar modal sin recargar la página
+                cargarSneakers();
+                setTimeout(() => mostrarModal(selectedSneakerId), 300);
+                // Limpiar inputs
+                document.getElementById("new-size").value = "";
+                document.getElementById("new-price").value = "";
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+
+    function eliminarZapatilla() {
+        if (confirm("¿Seguro que deseas eliminar esta zapatilla?")) {
+            fetch(`eliminar_sneaker.php?id=${selectedSneakerId}`, {
+                method: "DELETE"
+            }).then(() => location.reload());
+        }
+    }
+
+    function eliminarTalla(id, size) {
+        if (confirm(`¿Eliminar talla ${size}?`)) {
+            const formData = new FormData();
+            formData.append("id", id);
+            formData.append("size", size);
+
+            fetch("eliminar_talla.php", {
+                method: "POST",
+                body: formData
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      cargarSneakers();
+                      setTimeout(() => mostrarModal(selectedSneakerId), 300);
+                  } else {
+                      alert("Error al eliminar talla: " + data.message);
+                  }
+              })
+              .catch(error => console.error("Error:", error));
+        }
+    }
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

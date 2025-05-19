@@ -600,49 +600,55 @@
         }
 
         function renderizarZapatillas(data) {
-            const container = document.getElementById("sneaker-list");
-            container.innerHTML = ""; 
+    const container = document.getElementById("sneaker-list");
+    container.innerHTML = ""; 
 
-            if (data.length === 0) {
-                container.innerHTML = `
-                    <div class="col-12 text-center py-5">
-                        <i class="fas fa-search fa-3x mb-3 text-muted"></i>
-                        <h4>No se encontraron zapatillas</h4>
-                        <p class="text-muted">Intenta con otros filtros o realiza una nueva búsqueda.</p>
-                    </div>
-                `;
-                return;
-            }
+    if (data.length === 0) {
+        container.innerHTML = `
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+                <h4>No se encontraron zapatillas</h4>
+                <p class="text-muted">Intenta con otros filtros o realiza una nueva búsqueda.</p>
+            </div>
+        `;
+        return;
+    }
 
-            data.forEach((sneaker, index) => {
-                const imageSrc = sneaker.images && sneaker.images.length > 0 ? sneaker.images[0] : "placeholder.jpg";
-                const price = sneaker.prices && sneaker.prices["7"] ? `$${sneaker.prices["7"]}` : "No disponible";
-                const brand = sneaker.brand ? sneaker.brand : "Desconocida";
-                const isNew = index < 3; // Solo por demostración, los primeros 3 items serán nuevos
+    data.forEach((sneaker, index) => {
+        console.log(`Verificando precios de ${sneaker.name}:`, sneaker.prices); // 📌 Depuración en consola
 
-                const sneakerCard = document.createElement("div");
-                sneakerCard.classList.add("sneaker-card");
+        const imageSrc = sneaker.images && sneaker.images.length > 0 ? sneaker.images[0] : "placeholder.jpg";
+        const price = sneaker.prices && Object.keys(sneaker.prices).length > 0 
+            ? `$${Object.values(sneaker.prices)[0]}` // 📌 Ahora toma la primera talla con precio disponible
+            : "No disponible";
 
-                sneakerCard.innerHTML = `
-                    <div class="sneaker-image">
-                        <img src="${imageSrc}" alt="${sneaker.name}">
-                        ${isNew ? '<span class="badge-new">NUEVO</span>' : ''}
-                    </div>
-                    <div class="sneaker-details">
-                        <div class="sneaker-brand">${brand}</div>
-                        <h3 class="sneaker-name">${sneaker.name}</h3>
-                        <div class="sneaker-price">
-                            <span>${price}</span>
-                            <a href="http://localhost/sneaker_store/detallezapatilla.html?id=${sneaker.id}" class="quick-view-btn">
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                `;
+        const brand = sneaker.brand ? sneaker.brand : "Desconocida";
+        const isNew = index < 3; // 📌 Solo por demostración, los primeros 3 items serán nuevos
 
-                container.appendChild(sneakerCard);
-            });
-        }
+        const sneakerCard = document.createElement("div");
+        sneakerCard.classList.add("sneaker-card");
+
+        sneakerCard.innerHTML = `
+            <div class="sneaker-image">
+                <img src="${imageSrc}" alt="${sneaker.name}">
+                ${isNew ? '<span class="badge-new">NUEVO</span>' : ''}
+            </div>
+            <div class="sneaker-details">
+                <div class="sneaker-brand">${brand}</div>
+                <h3 class="sneaker-name">${sneaker.name}</h3>
+                <div class="sneaker-price">
+                    <span>${price}</span>
+                    <a href="http://localhost/sneaker_store/detallezapatilla.html?id=${sneaker.id}" class="quick-view-btn">
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        `;
+
+        container.appendChild(sneakerCard);
+    });
+}
+
         
         function filtrarZapatillas() {
             const searchText = document.getElementById("navbar-search").value.toLowerCase().trim();
