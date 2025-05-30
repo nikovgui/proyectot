@@ -390,6 +390,8 @@
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             }
         }
+
+        
     </style>
 </head>
 <body>
@@ -397,7 +399,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#">OGKicks</a>
+            <a class="navbar-brand" href="index.html">OGKicks</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -405,13 +407,13 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link active" href="index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Nuevos Lanzamientos</a>
+                        <a class="nav-link" href="ropa.html">Ropa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Colecciones</a>
+                        <a class="nav-link" href="colecciones.php">Colecciones</a>
                     </li>
                 </ul>
                 
@@ -441,7 +443,11 @@
                         <i class="fas fa-cog me-1"></i> Admin
                     </button>
                     <button id="add-sneaker-button" class="btn action-btn btn-accent" style="display: none;" onclick="window.location.href='add_sneaker.php'">
-                        <i class="fas fa-plus me-1"></i> Agregar
+                        <i class="fas fa-plus me-1"></i> Agregar Zapatilla
+                    </button>
+
+                    <button id="add-clothing-button" class="btn action-btn btn-accent" style="display: none;" onclick="window.location.href='add_clothing.php'">
+                        <i class="fas fa-plus me-1"></i>  Agregar Ropa
                     </button>
                 </div>
             </div>
@@ -539,28 +545,45 @@
         let sneakersData = [];
         
         document.addEventListener("DOMContentLoaded", function () {
-            fetch("http://localhost/sneaker_store/get_sneakers.php") 
-                .then(response => response.json())
-                .then(data => {
-                    sneakersData = data.map(sneaker => ({
-                        ...sneaker,
-                        brand: inferirMarca(sneaker.name) 
-                    }));
-                    console.log("Datos cargados con marcas inferidas:", sneakersData);
-                    renderizarZapatillas(sneakersData);
-                    checkAdminStatus();
-                    actualizarCarrito();
-                })
-                .catch(error => {
-                    console.error("Error cargando zapatillas:", error);
-                    document.getElementById("sneaker-list").innerHTML = `
-                        <div class="alert alert-danger" role="alert">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
-                            No se pudieron cargar las zapatillas. Por favor, intenta de nuevo más tarde.
-                        </div>
-                    `;
-                });
-                
+    fetch("http://localhost/sneaker_store/get_sneakers.php") 
+        .then(response => response.json())
+        .then(data => {
+            sneakersData = data.map(sneaker => ({
+                ...sneaker,
+                brand: inferirMarca(sneaker.name) 
+            }));
+            
+            // Verificar si hay una marca filtrada en localStorage
+            const marcaFiltrada = localStorage.getItem('marcaFiltrada');
+            if (marcaFiltrada) {
+                // Aplicar el filtro automáticamente
+                document.getElementById("brand-filter").value = marcaFiltrada;
+                // Limpiar el localStorage para futuras visitas
+                localStorage.removeItem('marcaFiltrada');
+                // Filtrar las zapatillas
+                const filteredData = sneakersData.filter(sneaker => 
+                    sneaker.brand.toLowerCase() === marcaFiltrada.toLowerCase()
+                );
+                renderizarZapatillas(filteredData);
+            } else {
+                renderizarZapatillas(sneakersData);
+            }
+            
+            checkAdminStatus();
+            actualizarCarrito();
+        })
+        .catch(error => {
+            console.error("Error cargando zapatillas:", error);
+            document.getElementById("sneaker-list").innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    No se pudieron cargar las zapatillas. Por favor, intenta de nuevo más tarde.
+                </div>
+            `;
+        });
+               
+        
+        
             // Configuración de eventos para el modal
             document.getElementById("abrirCarrito").addEventListener("click", function () {
                 document.getElementById("modalCarrito").style.display = "flex";
@@ -594,6 +617,8 @@
                     if (data.admin) {
                         document.getElementById("admin-button").style.display = "block";
                         document.getElementById("add-sneaker-button").style.display = "block";
+                        document.getElementById("add-clothing-button").style.display = "block";
+
                     }
                 })
                 .catch(error => console.error("Error verificando administrador:", error));

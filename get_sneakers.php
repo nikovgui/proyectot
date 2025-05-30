@@ -24,11 +24,13 @@ function procesarSneaker($sneaker) {
     $sneaker["sizes"] = json_decode($sneaker["sizes"], true);
     if (!is_array($sneaker["sizes"])) $sneaker["sizes"] = [];
 
+  
     // Si por alguna razón sizes está vacío pero prices no,
     // rellenamos sizes con las claves de prices
     if (empty($sneaker["sizes"]) && !empty($sneaker["prices"])) {
         $sneaker["sizes"] = array_keys($sneaker["prices"]);
     }
+    
 
     return $sneaker;
 }

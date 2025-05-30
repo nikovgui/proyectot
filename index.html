@@ -3,1333 +3,1231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OGKicks - Tienda Premium de Zapatillas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>OGKicks - Tienda de Zapatillas</title>
     <style>
-        /* Variables CSS */
         :root {
-            --primary-color: #ff4d4d;
-            --secondary-color: #222;
-            --accent-color: #00c2cb;
-            --text-color: #333;
-            --light-bg: #f8f9fa;
-            --white: #ffffff;
-            --shadow: 0 5px 15px rgba(0,0,0,0.1);
-            --transition: all 0.3s ease;
+            --primary-color: #1e3a8a;
+            --accent-color: #ff6b6b;
+            --background-light: #f8fafc;
+            --text-dark: #1e293b;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
-
-        /* Reset y estilos generales */
-        * {
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            background-color: var(--background-light);
+            color: var(--text-dark);
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--light-bg);
-            color: var(--text-color);
-            line-height: 1.6;
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 12px 20px;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color) !important;
+            letter-spacing: -0.5px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .action-btn {
+            border-radius: 50px;
+            padding: 6px 14px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
 
-        .btn {
-            display: inline-block;
+        .btn-primary {
             background-color: var(--primary-color);
-            color: var(--white);
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
+            border-color: var(--primary-color);
         }
 
-        .btn:hover {
-            background-color: #ff3333;
+        .btn-primary:hover {
+            background-color: #152b63;
+            border-color: #152b63;
             transform: translateY(-2px);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background-color: #ff5252;
+            border-color: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .search-form {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-form input {
+            border-radius: 50px;
+            padding-left: 40px;
+            border: 1px solid #e2e8f0;
+            background-color: #f1f5f9;
+        }
+
+        .search-form::before {
+            content: "🔍";
+            position: absolute;
+            left: 15px;
+            top: 8px;
+            opacity: 0.5;
+        }
+
+        .hero-carousel {
+            margin-bottom: 40px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .carousel-item {
+            height: 500px;
+            position: relative;
+        }
+
+        .carousel-item img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+        
+
+        
+
+        .brands-section {
+            padding: 60px 0;
+            background-color: white;
         }
 
         .section-title {
             font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 40px;
+            text-align: center;
             position: relative;
-            display: inline-block;
         }
 
         .section-title::after {
             content: "";
             position: absolute;
             bottom: -10px;
-            left: 0;
-            width: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
             height: 4px;
-            background-color: var(--primary-color);
+            background-color: var(--accent-color);
+            border-radius: 2px;
         }
 
-        /* Header y Navegación */
-        header {
-            background-color: var(--white);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        .brand-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            height: 100%;
         }
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
+        .brand-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--secondary-color);
-        }
-
-        .logo span {
-            color: var(--primary-color);
-        }
-
-        .search-container {
-            position: relative;
-            width: 350px;
-        }
-
-        #search-bar {
-            width: 100%;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 50px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-
-        #search-bar:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .nav-link {
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .nav-link:hover {
-            color: var(--primary-color);
-        }
-
-        .cart-btn {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background-color: var(--secondary-color);
-            padding: 8px 15px;
-            border-radius: 50px;
-            color: var(--white);
-            transition: var(--transition);
-        }
-
-        .cart-btn:hover {
-            background-color: var(--primary-color);
-        }
-
-        .cart-count {
-            background-color: var(--white);
-            color: var(--secondary-color);
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
+        .brand-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
         }
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1552346154-21d32810aba3?ixlib=rb-4.0.3') no-repeat center/cover;
-            height: 500px;
-            color: var(--white);
-            display: flex;
-            align-items: center;
+        .brand-logo img {
+            max-height: 80%;
+            max-width: 80%;
+            object-fit: contain;
         }
 
-        .hero-content {
-            max-width: 600px;
-        }
-
-        .hero-title {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        /* Categorías */
-        .categories {
-            padding: 60px 0;
-        }
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .category-card {
-            background-color: var(--white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
-
-        .category-img {
-            height: 150px;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        .category-name {
-            padding: 15px;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        /* Carousel */
-        .carousel-section {
-            padding: 60px 0;
-            background-color: var(--white);
-        }
-
-        .carousel-container {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .carousel-track {
-            display: flex;
-            gap: 20px;
-            transition: transform 0.5s ease;
-        }
-
-        .carousel-item {
-            min-width: 300px;
-            background-color: var(--white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .carousel-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .carousel-content {
-            padding: 15px;
-        }
-
-        .carousel-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .carousel-price {
-            color: var(--primary-color);
+        .brand-name {
             font-weight: 700;
+            font-size: 1.3rem;
             margin-bottom: 10px;
-        }
-
-        .carousel-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .carousel-btn {
-            background-color: var(--secondary-color);
-            color: var(--white);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .carousel-btn:hover {
-            background-color: var(--primary-color);
-        }
-
-        /* Productos destacados */
-        .featured {
-            padding: 60px 0;
-        }
-
-        .featured-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .featured-filters {
-            display: flex;
-            gap: 15px;
-        }
-
-        .filter-btn {
-            background-color: transparent;
-            border: 1px solid #ddd;
-            padding: 8px 15px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .filter-btn.active {
-            background-color: var(--primary-color);
-            color: var(--white);
-            border-color: var(--primary-color);
-        }
-
-        .filter-btn:hover:not(.active) {
-            border-color: var(--primary-color);
             color: var(--primary-color);
+        }
+
+        .brand-description {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .featured-section {
+            padding: 60px 0;
+            background-color: var(--background-light);
         }
 
         .sneaker-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
+            padding: 20px 0;
         }
 
         .sneaker-card {
-            background-color: var(--white);
-            border-radius: 10px;
+            background: white;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .sneaker-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .sneaker-img-container {
-            position: relative;
-            height: 200px;
-            background-color: #f5f5f5;
+        .sneaker-image {
+            height: 220px;
+            width: 100%;
+            background: #f1f5f9;
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 20px;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .sneaker-img {
-            max-width: 100%;
-            max-height: 160px;
-            transition: var(--transition);
+        .sneaker-image img {
+            max-height: 85%;
+            max-width: 85%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
         }
 
-        .sneaker-card:hover .sneaker-img {
-            transform: scale(1.05);
+        .sneaker-card:hover .sneaker-image img {
+            transform: scale(1.1);
         }
 
-        .sneaker-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .sneaker-actions {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+        .sneaker-details {
+            padding: 18px;
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-        }
-
-        .action-btn {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background-color: var(--white);
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            color: var(--secondary-color);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .action-btn:hover {
-            background-color: var(--primary-color);
-            color: var(--white);
-        }
-
-        .sneaker-content {
-            padding: 15px;
         }
 
         .sneaker-brand {
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 5px;
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
         }
 
         .sneaker-name {
-            font-weight: 600;
-            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            height: 2.8em;
+            overflow: hidden;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
-            overflow: hidden;
-            height: 42px;
-        }
-
-        .sneaker-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .sneaker-price {
-            font-weight: 700;
+            font-size: 1.2rem;
+            font-weight: 800;
             color: var(--primary-color);
+            margin-top: auto;
         }
 
-        .add-to-cart {
-            background-color: var(--secondary-color);
-            color: var(--white);
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .add-to-cart:hover {
-            background-color: var(--primary-color);
-        }
-
-        /* Banner */
-        .banner {
-            padding: 80px 0;
-            background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3') no-repeat center/cover;
-            color: var(--white);
-            text-align: center;
-        }
-
-        .banner-title {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .banner-text {
-            max-width: 700px;
-            margin: 0 auto 30px;
-            opacity: 0.9;
-        }
-
-        .banner-btn {
-            background-color: var(--white);
-            color: var(--secondary-color);
-            padding: 12px 30px;
-            font-weight: 600;
-            border-radius: 50px;
-            display: inline-block;
-            transition: var(--transition);
-        }
-
-        .banner-btn:hover {
-            background-color: var(--primary-color);
-            color: var(--white);
-            transform: translateY(-3px);
-        }
-
-        /* Testimonios */
-        .testimonials {
+        .newsletter-section {
             padding: 60px 0;
-            background-color: var(--white);
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .testimonial-card {
-            background-color: var(--light-bg);
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-        }
-
-        .testimonial-content {
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .author-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .author-info h4 {
-            font-weight: 600;
-        }
-
-        .author-info p {
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        .stars {
-            color: #ffc107;
-            margin-top: 5px;
-        }
-
-        /* Newsletter */
-        .newsletter {
-            padding: 60px 0;
-            background-color: var(--secondary-color);
-            color: var(--white);
-            text-align: center;
+            background-color: var(--primary-color);
+            color: white;
         }
 
         .newsletter-title {
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
         }
 
         .newsletter-text {
-            max-width: 600px;
-            margin: 0 auto 30px;
-            opacity: 0.8;
+            margin-bottom: 25px;
+            opacity: 0.9;
         }
 
         .newsletter-form {
-            display: flex;
             max-width: 500px;
             margin: 0 auto;
         }
 
         .newsletter-input {
-            flex: 1;
-            padding: 12px 20px;
+            border-radius: 50px 0 0 50px !important;
             border: none;
-            border-radius: 50px 0 0 50px;
-            font-family: 'Poppins', sans-serif;
+            padding: 12px 20px;
         }
 
         .newsletter-btn {
-            background-color: var(--primary-color);
-            color: var(--white);
+            border-radius: 0 50px 50px 0 !important;
+            background-color: var(--accent-color);
             border: none;
-            border-radius: 0 50px 50px 0;
-            padding: 0 25px;
+            padding: 12px 25px;
             font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
         }
 
         .newsletter-btn:hover {
-            background-color: #ff3333;
+            background-color: #ff5252;
         }
 
-        /* Footer */
         footer {
-            background-color: #111;
-            color: #ddd;
-            padding: 60px 0 30px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col h3 {
-            color: var(--white);
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-col h3::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 30px;
-            height: 3px;
             background-color: var(--primary-color);
+            color: white;
+            padding: 40px 0 20px;
         }
 
-        .footer-links {
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-links h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .footer-links ul {
             list-style: none;
+            padding: 0;
         }
 
         .footer-links li {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .footer-links a {
-            color: #aaa;
-            transition: var(--transition);
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
 
         .footer-links a:hover {
-            color: var(--primary-color);
+            color: white;
             padding-left: 5px;
         }
 
-        .footer-social {
+        .social-icons {
             display: flex;
             gap: 15px;
             margin-top: 20px;
         }
 
-        .social-icon {
-            width: 35px;
-            height: 35px;
-            background-color: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            transition: var(--transition);
+        .social-icons a {
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
         }
 
-        .social-icon:hover {
-            background-color: var(--primary-color);
+        .social-icons a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
         }
 
-        .footer-bottom {
+        .copyright {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
             font-size: 0.9rem;
-            color: #999;
+            opacity: 0.7;
         }
 
-        /* Responsive */
-        @media (max-width: 992px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .search-container {
-                width: 250px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero {
+        @media (max-width: 991px) {
+            .carousel-item {
                 height: 400px;
             }
             
-            .hero-title {
-                font-size: 2rem;
+            .carousel-caption {
+                right: 5%;
+                left: 5%;
+                bottom: 10%;
             }
             
-            .section-title {
-                font-size: 1.8rem;
-            }
-            
-            .banner-title {
+            .carousel-title {
                 font-size: 2rem;
             }
         }
-
-        @media (max-width: 576px) {
-            .hero {
+        
+        @media (max-width: 767px) {
+            .carousel-item {
                 height: 350px;
             }
             
-            .hero-title {
-                font-size: 1.8rem;
+            .carousel-caption {
+                padding: 15px;
             }
             
-            .sneaker-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            .carousel-title {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
             }
             
-            .newsletter-form {
-                flex-direction: column;
-                gap: 10px;
+            .carousel-text {
+                font-size: 1rem;
+                margin-bottom: 15px;
             }
             
-            .newsletter-input,
-            .newsletter-btn {
-                border-radius: 50px;
-                width: 100%;
-                padding: 12px;
+            .section-title {
+                font-size: 1.7rem;
             }
         }
+
+        .categories-section {
+            padding: 60px 0;
+            background-color: white;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            height: 100%;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            min-height: 320px; /* Altura mínima uniforme */
+        }
+        
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .category-image-container {
+            width: 180px;  /* Ancho fijo */
+            height: 180px; /* Alto fijo */
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: #f8f9fa; /* Fondo neutral para imágenes transparentes */
+        }
+        
+        .category-image-container img {
+            width: 100%;  /* Ocupa todo el contenedor */
+            height: 100%;  /* Ocupa todo el contenedor */
+            object-fit: cover; /* Cubre todo el espacio manteniendo relación de aspecto */
+            object-position: center; /* Centra la imagen */
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover .category-image-container img {
+            transform: scale(1.05); /* Efecto zoom al hacer hover */
+        }
+        
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .category-link {
+            color: var(--accent-color);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            padding: 8px 20px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50px;
+        }
+        
+        .category-link:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Estilos para la sección de marcas con imágenes */
+        .shop-by-brands {
+            padding: 60px 0;
+            background-color: var(--background-light);
+        }
+        
+        /* Estilos para las tarjetas de marcas */
+/* Estilos para las tarjetas de marcas */
+.brand-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid #e2e8f0;
+    cursor: pointer; /* Ya lo tienes inline pero es mejor en CSS */
+}
+
+.brand-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    border-color: var(--accent-color);
+}
+
+.brand-logo {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.brand-card:hover .brand-logo {
+    transform: scale(1.05);
+}
+
+.brand-logo img {
+    max-height: 80%;
+    max-width: 80%;
+    object-fit: contain;
+}
+
+.brand-name {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+.brand-card:hover .brand-name {
+    color: var(--accent-color);
+}
+
+/* Responsive para tarjetas de marca */
+@media (max-width: 991px) {
+    .brand-card {
+        padding: 20px;
+    }
+    
+    .brand-logo {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .brand-name {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .brand-card {
+        margin-bottom: 20px;
+    }
+    
+    .brand-logo {
+        width: 80px;
+        height: 80px;
+    }
+}
+    
+        
+       /* Estilos para la sección de comprar por marcas */
+.brands-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.brand-item {
+    width: 120px; /* Tamaño más pequeño para cada logo */
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.brand-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.brand-logo-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-logo-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+    .brand-item {
+        width: 90px;
+        height: 60px;
+    }
+}
+
+     .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+.modal-contenido {
+    background: white;
+    border-radius: 12px;
+    max-width: 550px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.cerrar {
+    color: #64748b;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.cerrar:hover {
+    color: var(--accent-color);
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.cart-item-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: contain;
+    background-color: #f1f5f9;
+    padding: 5px;
+}
+
+.cart-item-details {
+    flex-grow: 1;
+    padding: 0 15px;
+}
+
+.cart-item-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.cart-item-size {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.cart-item-price {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.cart-item-remove {
+    color: #94a3b8;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.cart-item-remove:hover {
+    color: var(--accent-color);
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 30px 0;
+    color: #64748b;
+}
+
+.empty-cart i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.4;
+}   
+
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="#" class="logo">OG<span>Kicks</span></a>
-                
-                <div class="search-container">
-                    <input type="search" id="search-bar" placeholder="Buscar zapatillas...">
-                    <i class="fas fa-search search-icon"></i>
-                </div>
-                
-                <div class="nav-links">
-                    <a href="#" class="nav-link">Inicio</a>
-                    <a href="#" class="nav-link">Hombre</a>
-                    <a href="#" class="nav-link">Mujer</a>
-                    <a href="#" class="nav-link">Niños</a>
-                    <a href="#" class="nav-link">Ofertas</a>
-                </div>
-                
-                <a href="#" class="cart-btn" id="abrirCarrito">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" id="carrito-count">0</span>
-                </a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Descubre tu estilo con nuestras zapatillas exclusivas</h1>
-                <p class="hero-subtitle">Las mejores marcas y modelos limitados al mejor precio</p>
-                <a href="#featured" class="btn">Explorar Colección</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Categorías -->
-    <section class="categories">
-        <div class="container">
-            <h2 class="section-title">Categorías</h2>
-            <div class="category-grid">
-                <a href="#" class="category-card">
-                    <img src="/api/placeholder/400/150" alt="Categoría Running" class="category-img">
-                    <div class="category-name">Running</div>
-                </a>
-                <a href="#" class="category-card">
-                    <img src="/api/placeholder/400/150" alt="Categoría Basketball" class="category-img">
-                    <div class="category-name">Basketball</div>
-                </a>
-                <a href="#" class="category-card">
-                    <img src="/api/placeholder/400/150" alt="Categoría Casual" class="category-img">
-                    <div class="category-name">Casual</div>
-                </a>
-                <a href="#" class="category-card">
-                    <img src="/api/placeholder/400/150" alt="Categoría Training" class="category-img">
-                    <div class="category-name">Training</div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Carousel -->
-    <section class="carousel-section">
-        <div class="container">
-            <h2 class="section-title">Últimos Lanzamientos</h2>
-            <div class="carousel-container">
-                <div class="carousel-track" id="carousel">
-                    <!-- Se cargarán dinámicamente -->
-                </div>
-                <div class="carousel-buttons">
-                    <button class="carousel-btn" id="prev-btn">
-                        <i class="fas fa-chevron-left"></i>
+  <!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">OGKicks</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ropa.html">Ropa</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="home.html">Zapatillas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="colecciones.php">Colecciones</a>
+                </li>
+            </ul>
+            
+            <form class="search-form mx-lg-2" role="search">
+                <input class="form-control" type="search" placeholder="Buscar zapatillas...">
+            </form>
+            
+            <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+                <span id="user-name" class="d-none d-lg-inline">Bienvenido, Invitado</span>
+                <div class="d-flex gap-2">
+                    <button id="abrirCarrito" class="btn action-btn btn-outline-dark position-relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="carrito-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                     </button>
-                    <button class="carousel-btn" id="next-btn">
-                        <i class="fas fa-chevron-right"></i>
+                    <button class="btn action-btn btn-primary">
+                        <i class="fas fa-shipping-fast me-1"></i> Seguir
+                    </button>
+                    <button class="btn action-btn btn-outline-danger" onclick="window.location.href='login.html'">
+                        <i class="fas fa-sign-in-alt"></i>
                     </button>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Productos Destacados -->
-    <section class="featured" id="featured">
-        <div class="container">
-            <div class="featured-header">
-                <h2 class="section-title">Zapatillas Destacadas</h2>
-                <div class="featured-filters">
-                    <button class="filter-btn active" data-filter="all">Todos</button>
-                    <button class="filter-btn" data-filter="hombre">Hombre</button>
-                    <button class="filter-btn" data-filter="mujer">Mujer</button>
-                    <button class="filter-btn" data-filter="ninos">Niños</button>
-                </div>
-            </div>
-            <div class="sneaker-grid" id="sneaker-grid">
-                <!-- Se cargarán dinámicamente -->
+            
+            <!-- Admin buttons - Agregar esta sección -->
+            <div class="d-flex gap-2 mt-3 mt-lg-0 ms-lg-3">
+                <button id="admin-button" class="btn action-btn btn-dark" onclick="window.location.href='admin_dashboard.php'" style="display: none;">
+                    <i class="fas fa-cog me-1"></i> Admin
+                </button>
+                <button id="add-sneaker-button" class="btn action-btn btn-accent" style="display: none;" onclick="window.location.href='add_sneaker.php'">
+                    <i class="fas fa-plus me-1"></i> Agregar Zapatilla
+                </button>
+                <button id="add-clothing-button" class="btn action-btn btn-accent" style="display: none;" onclick="window.location.href='add_clothing.php'">
+                    <i class="fas fa-plus me-1"></i> Agregar Ropa
+                </button>
             </div>
         </div>
-    </section>
+    </div>
+</nav>
 
-    <!-- Banner -->
-    <section class="banner">
-        <div class="container">
-            <h2 class="banner-title">Únete al club OGKicks</h2>
-            <p class="banner-text">Obtén acceso exclusivo a descuentos especiales, releases anticipados y eventos privados</p>
-            <a href="#" class="banner-btn">Únete Ahora</a>
+    <!-- Hero Carousel -->
+    <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
         </div>
-    </section>
-
-    <!-- Testimonios -->
-    <section class="testimonials">
-        <div class="container">
-            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-content">"He comprado varias zapatillas en OGKicks y siempre quedo satisfecho. La calidad es excepcional y el envío es rápido."</p>
-                    <div class="testimonial-author">
-                        <img src="/api/placeholder/100/100" alt="Cliente" class="author-img">
-                        <div class="author-info">
-                            <h4>Carlos Mendoza</h4>
-                            <p>Cliente desde 2021</p>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://thelinegroupcl.vtexassets.com/assets/vtex.file-manager-graphql/images/a4726ff4-aaf2-44cc-98d4-1ccbc47a981b___3c6d94eff4ddbd2c942792887ae3dfa8.png" class="d-block w-100" alt="Nike Banner">
+                <div class="carousel-caption d-none d-md-block">
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-content">"La mejor tienda para conseguir modelos exclusivos. Su servicio al cliente es increíble, resolvieron todas mis dudas."</p>
-                    <div class="testimonial-author">
-                        <img src="/api/placeholder/100/100" alt="Cliente" class="author-img">
-                        <div class="author-info">
-                            <h4>Laura Sánchez</h4>
-                            <p>Cliente desde 2022</p>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://thelinegroupcl.vtexassets.com/assets/vtex.file-manager-graphql/images/4575f6ea-0ca8-44de-b8ca-9b248f83a1b3___9702e0184b548f5bdbd69c3da1e592cd.png" class="d-block w-100" alt="Jordan Banner">
+                <div class="carousel-caption d-none d-md-block">
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-content">"Encontré unos Air Jordan que buscaba hace tiempo. Los precios son justos y todo llegó perfectamente empacado."</p>
-                    <div class="testimonial-author">
-                        <img src="/api/placeholder/100/100" alt="Cliente" class="author-img">
-                        <div class="author-info">
-                            <h4>Miguel Torres</h4>
-                            <p>Cliente desde 2020</p>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://thelinegroupcl.vtexassets.com/assets/vtex.file-manager-graphql/images/f0881a2b-24d8-4218-bbba-8dd5fa09b2ec___4a6e694d176fe1a45c33cbdbacfbb155.png" class="d-block w-100" alt="Adidas Banner">
+                <div class="carousel-caption d-none d-md-block">
                 </div>
             </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+
+
+
+<!-- Marcas Destacadas -->
+<section class="brands-section">
+    <div class="container">
+        <h2 class="section-title">Zapatilla</h2>
+        <div class="row g-4"> <!-- Esta es la fila que contiene las columnas -->
+            <div class="col-md-4">
+                <div class="brand-card" onclick="filtrarPorMarca('Nike')">
+                    <div class="brand-logo">
+                        <img src="https://logoeps.com/wp-content/uploads/2013/03/nike-vector-logo.png" alt="Nike Logo">
+                    </div>
+                    <h3 class="brand-name">Nike</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="brand-card" onclick="filtrarPorMarca('Adidas')">
+                    <div class="brand-logo">
+                        <img src="https://logos-world.net/wp-content/uploads/2020/04/Adidas-Logo.png" alt="Adidas Logo">
+                    </div>
+                    <h3 class="brand-name">Adidas</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="brand-card" onclick="filtrarPorMarca('Jordan')">
+                    <div class="brand-logo">
+                        <img src="https://static.vecteezy.com/system/resources/previews/014/414/668/non_2x/air-jordan-jumpman-logo-on-transparent-background-free-vector.jpg" alt="Jordan Logo">
+                    </div>
+                    <h3 class="brand-name">Jordan</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+     <!-- Nueva Sección de Categorías -->
+    <section class="categories-section">
+        <div class="container">
+            <h2 class="section-title">Explora Nuestras Colecciones</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="category-card">
+                        <h3 class="category-title">CACTUS JACK</h3>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Cactus_Jack_Records_-_Logo.svg" alt="CONVERSE">
+                        <a href="#" class="category-link">Ver colección →</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="category-card">
+                        <h3 class="category-title">KORN X ADIDAS</h3>
+                        <img src="https://i.pinimg.com/736x/75/48/6c/75486c131efa49d56729ba63f6c800b3.jpg" alt="CONVERSE">
+                        <a href="#" class="category-link">Ver colección →</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="category-card">
+                        <h3 class="category-title">BAD BUNNY X ADIDAS</h3>
+                        <img src="https://brand.assets.adidas.com/image/upload/f_auto,q_auto:best,fl_lossy/if_w_gt_800,w_800/bad_bunny_tc_d_915556df4b.jpg" alt="CONVERSE">
+                        <a href="#" class="category-link">Ver colección →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
+
+ <!-- Sección de Comprar por Marcas con Logos -->
+    <section class="shop-by-brands">
+        <div class="container">
+            <h2 class="section-title">COMPRAR POR MARCAS</h2>
+            <div class="brands-grid">
+                <!-- CONVERSE -->
+                <div class="brand-item">
+                    <div class="brand-logo-container">
+                        <img src="https://static.vecteezy.com/system/resources/previews/019/136/423/non_2x/adidas-logo-adidas-icon-free-free-vector.jpg" alt="CONVERSE">
+                    </div>
+                </div>
+                
+                <!-- EA7 -->
+                <div class="brand-item">
+                    <div class="brand-logo-container">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" alt="EA7">
+                    </div>
+                </div>
+                
+                <!-- DISTURBANÉNIA -->
+                <div class="brand-item">
+                    <div class="brand-logo-container">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/3/37/Jumpman_logo.svg" alt="DISTURBANÉNIA">
+                    </div>
+                </div>
+                
+                <!-- LACOSTE -->
+                <div class="brand-item">
+                    <div class="brand-logo-container">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/New_Balance_logo.svg/1200px-New_Balance_logo.svg.png" alt="LACOSTE">
+                    </div>
+                </div>
+                
+                <!-- HOODRICH -->
+                <div class="brand-item">
+                    <div class="brand-logo-container">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Louis_Vuitton_logo_and_wordmark.svg" alt="HOODRICH">
+                    </div>
+                </div>
+                
+                <!-- SIKSILK -->
+                <div class="brand-item">
+                    <div class="brand-logo-container">
+                        <img src="https://i.pinimg.com/736x/9d/53/9d/9d539db630fedba8dffb3d12f0188ee2.jpg" alt="SIKSILK">
+                    </div>
+                </div>
+                
+                <!-- EA7 (segunda instancia) -->
+                <div class="brand-item">
+                    <div class="brand-logo-container">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Vans-logo.svg/2560px-Vans-logo.svg.png" alt="EA7">
+                    </div>
+                </div>
+                <div class="brand-item">
+                    <div class="brand-logo-container">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Supreme_Logo.svg/1280px-Supreme_Logo.svg.png" alt="EA7">
+                    </div>
+                </div>
+
+                <div class="brand-item">
+                    <div class="brand-logo-container">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Asics_Logo.svg/1200px-Asics_Logo.svg.png" alt="EA7">
+                    </div>
+                </div>
+
+                <div class="brand-item">
+                    <div class="brand-logo-container">
+                        <img src="https://images.seeklogo.com/logo-png/29/1/stussy-logo-png_seeklogo-298267.png" alt="EA7">
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+   
     <!-- Newsletter -->
-    <section class="newsletter">
-        <div class="container">
-            <h2 class="newsletter-title">Mantente informado</h2>
-            <p class="newsletter-text">Suscríbete a nuestro newsletter y recibe las últimas novedades, lanzamientos y ofertas exclusivas.</p>
+    <section class="newsletter-section">
+        <div class="container text-center">
+            <h2 class="newsletter-title">Únete a nuestra comunidad</h2>
+            <p class="newsletter-text">Suscríbete para recibir las últimas novedades, lanzamientos exclusivos y ofertas especiales.</p>
             <form class="newsletter-form">
-                <input type="email" placeholder="Tu correo electrónico" class="newsletter-input" required>
-                <button type="submit" class="newsletter-btn">Suscribirse</button>
+                <div class="input-group">
+                    <input type="email" class="form-control newsletter-input" placeholder="Tu correo electrónico" required>
+                    <button class="btn newsletter-btn" type="submit">Suscribirse</button>
+                </div>
             </form>
         </div>
     </section>
 
+    <!-- Carrito Modal -->
+<div id="modalCarrito" class="modal">
+    <div class="modal-contenido">
+        <div class="modal-header">
+            <h2><i class="fas fa-shopping-cart me-2"></i>Carrito de Compras</h2>
+            <span class="cerrar" onclick="cerrarCarrito()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div id="carrito-list"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline-secondary" onclick="vaciarCarrito()">
+                <i class="fas fa-trash me-1"></i> Vaciar carrito
+            </button>
+            <button class="btn btn-primary" onclick="procesarPago()">
+                <i class="fas fa-credit-card me-1"></i> Pagar ahora
+            </button>
+        </div>
+    </div>
+</div>
+
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>OGKicks</h3>
-                    <p>Tu tienda de confianza para conseguir los mejores modelos de zapatillas exclusivas, con envíos a todo el país y garantía de autenticidad.</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo">OGKicks</div>
+                    <p>Tu destino para las mejores zapatillas del mundo. Calidad, estilo y exclusividad en un solo lugar.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
                     </div>
                 </div>
-                <div class="footer-col">
-                    <h3>Enlaces</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Inicio</a></li>
-                        <li><a href="#">Zapatillas Hombre</a></li>
-                        <li><a href="#">Zapatillas Mujer</a></li>
-                        <li><a href="#">Zapatillas Niños</a></li>
-                        <li><a href="#">Ofertas</a></li>
-                    </ul>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <div class="footer-links">
+                        <h5>Compañía</h5>
+                        <ul>
+                            <li><a href="#">Sobre Nosotros</a></li>
+                            <li><a href="#">Trabaja con Nosotros</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Contacto</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="footer-col">
-                    <h3>Ayuda</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Cómo comprar</a></li>
-                        <li><a href="#">Envíos y entregas</a></li>
-                        <li><a href="#">Devoluciones</a></li>
-                        <li><a href="#">Tallas y medidas</a></li>
-                        <li><a href="#">Preguntas frecuentes</a></li>
-                    </ul>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <div class="footer-links">
+                        <h5>Ayuda</h5>
+                        <ul>
+                            <li><a href="#">Preguntas Frecuentes</a></li>
+                            <li><a href="#">Envíos</a></li>
+                            <li><a href="#">Devoluciones</a></li>
+                            <li><a href="#">Guía de Tallas</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="footer-col">
-                    <h3>Contacto</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt"></i> Av. Principal #123, Ciudad</li>
-                        <li><i class="fas fa-phone"></i> +34 123 456 789</li>
-                        <li><i class="fas fa-envelope"></i> info@ogkicks.com</li>
-                        <li><i class="fas fa-clock"></i> Lun-Vie: 9am - 8pm</li>
-                    </ul>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <div class="footer-links">
+                        <h5>Legal</h5>
+                        <ul>
+                            <li><a href="#">Términos y Condiciones</a></li>
+                            <li><a href="#">Política de Privacidad</a></li>
+                            <li><a href="#">Política de Cookies</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <div class="footer-links">
+                        <h5>Contacto</h5>
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt me-2"></i> Av. Principal 123</li>
+                            <li><i class="fas fa-phone me-2"></i> +1 234 567 890</li>
+                            <li><i class="fas fa-envelope me-2"></i> info@ogkicks.com</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 OGKicks - Todos los derechos reservados.</p>
+            <div class="copyright">
+                <p>&copy; 2023 OGKicks. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Carrito contador
-            let carritoCount = 0;
-            const carritoCountElement = document.getElementById("carrito-count");
-            
-            // Función para cargar las zapatillas desde la API
-            function cargarZapatillas() {
-                fetch("http://localhost/sneaker_store/get_sneakers.php")
-                    .then(response => response.json())
-                    .then(data => {
-                        cargarCarrusel(data.slice(0, 8)); // Primeras 8 zapatillas para el carrusel
-                        renderizarZapatillas(data);
-                    })
-                    .catch(error => {
-                        console.error("Error cargando zapatillas:", error);
-                        // Cargar datos de muestra en caso de error
-                        cargarDatosMuestra();
-                    });
+        // Actualizar contador del carrito
+        // Actualizar contador del carrito
+function actualizarCarrito() {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    document.getElementById("carrito-count").textContent = carrito.length;
+}
+
+// Mostrar el carrito
+function mostrarCarrito() {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    const contenedor = document.getElementById("carrito-list");
+    contenedor.innerHTML = "";
+    
+    if (carrito.length === 0) {
+        contenedor.innerHTML = `
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <h5>Tu carrito está vacío</h5>
+                <p>Agrega algunos productos increíbles a tu carrito.</p>
+            </div>
+        `;
+    } else {
+        carrito.forEach((producto, index) => {
+            const item = document.createElement("div");
+            item.classList.add("cart-item");
+            item.innerHTML = `
+                <img src="${producto.image}" alt="${producto.name}" class="cart-item-img">
+                <div class="cart-item-details">
+                    <div class="cart-item-name">${producto.name}</div>
+                    ${producto.size ? `<div class="cart-item-size">Talla: ${producto.size}</div>` : ''}
+                    <div class="cart-item-price">$${parseFloat(producto.price).toFixed(2)}</div>
+                </div>
+                <i class="fas fa-times cart-item-remove" onclick="eliminarProducto(${index})"></i>
+            `;
+            contenedor.appendChild(item);
+        });
+    }
+}
+
+
+// Verificar estado de administrador
+function checkAdminStatus() {
+    fetch("http://localhost/sneaker_store/check_admin.php")
+        .then(response => response.json())
+        .then(data => {
+            if (data.admin) {
+                document.getElementById("admin-button").style.display = "block";
+                document.getElementById("add-sneaker-button").style.display = "block";
+                document.getElementById("add-clothing-button").style.display = "block";
             }
-            
-            // Función para cargar datos de muestra en caso de error
-            function cargarDatosMuestra() {
-                const datosMuestra = [
-                    {
-                        id: 1,
-                        name: "Nike Air Max 90",
-                        brand: "Nike",
-                        category: "running",
-                        prices: {"7": 129.99, "8": 129.99, "9": 129.99},
-                        images: ["/api/placeholder/400/300"],
-                        isNew: true,
-                        discount: 0
-                    },
-                    {
-                        id: 2,
-                        name: "Adidas Ultraboost 22",
-                        brand: "Adidas",
-                        category: "running",
-                        prices: {"7": 179.99, "8": 179.99, "9": 179.99},
-                        images: ["/api/placeholder/400/300"],
-                        isNew: true,
-                        discount: 15
-                    },
-                    {
-                        id: 3,
-                        name: "Jordan 1 Retro High",
-                        brand: "Nike",
-                        category: "basketball",
-                        prices: {"7": 189.99, "8": 189.99, "9": 189.99},
-                        images: ["/api/placeholder/400/300"],
-                        isNew: false,
-                        discount: 0
-                    },
-                    {
-                        id: 4,
-                        name: "Puma RS-X",
-                        brand: "Puma",
-                        category: "casual",
-                        prices: {"7": 119.99, "8": 119.99, "9": 119.99},
-                        images: ["/api/placeholder/400/300"],
-                        isNew: false,
-                        discount: 20
-                    },
-                    {
-                        id: 5,
-                        name: "New Balance 574",
-                        brand: "New Balance",
-                        category: "casual",
-                        prices: {"7": 109.99, "8": 109.99, "9": 109.99},
-                        images: ["/api/placeholder/400/300"],
-                        isNew: false,
-                        discount: 0
-                    },
-                    {
-                        id: 6,
-                        name: "Converse Chuck Taylor All Star",
-                        brand: "Converse",
-                        category: "casual",
-                        prices: {"7": 69.99, "8": 69.99, "9": 69.99},
-                        images: ["/api/placeholder/400/300"],
-                        isNew: false,
-                        discount: 10
-                    },
-                    {
-                        id: 7,
-                        name: "Vans Old Skool",
-                        brand: "Vans",
-                        category: "casual",
-                        prices: {"7": 79.99, "8": 79.99, "9": 79.99},
-                        images: ["/api/placeholder/400/300"],
-                        isNew: true,
-                        discount: 0
-                    },
-                    {
-                        id: 8,
-                        name: "Reebok Classic Leather",
-                        brand: "Reebok",
-                        category: "casual",
-                        prices: {"7": 89.99, "8": 89.99, "9": 89.99},
-                        images: ["/api/placeholder/400/300"],
-                        isNew: false,
-                        discount: 25
-                    }
-                ];
-                
-                cargarCarrusel(datosMuestra);
-                renderizarZapatillas(datosMuestra);
+        })
+        .catch(error => console.error("Error verificando administrador:", error));
+}
+
+// Llamar a la función cuando se carga la página
+document.addEventListener("DOMContentLoaded", function() {
+    actualizarCarrito();
+    
+    document.getElementById("abrirCarrito").addEventListener("click", function() {
+        document.getElementById("modalCarrito").style.display = "flex";
+        mostrarCarrito();
+    });
+    
+    // Verificar sesión y estado de administrador
+    fetch("http://localhost/sneaker_store/session_status.php")
+        .then(response => response.json())
+        .then(data => {
+            if (data.logged_in) {
+                document.getElementById("user-name").innerText = `Bienvenido, ${data.nombre}`;
+                document.getElementById("user-name").classList.remove("d-none");
+                // Verificar si es admin
+                checkAdminStatus();
             }
-            
-            // Función para cargar zapatillas en el carrusel
-            function cargarCarrusel(zapatillas) {
-                const carrusel = document.getElementById("carousel");
-                carrusel.innerHTML = "";
-                
-                zapatillas.forEach(zapatilla => {
-                    const precioBase = zapatilla.prices["7"];
-                    const precioFinal = zapatilla.discount ? 
-                        (precioBase - (precioBase * zapatilla.discount / 100)).toFixed(2) : 
-                        precioBase;
-                    
-                    const item = document.createElement("div");
-                    item.className = "carousel-item";
-                    item.innerHTML = `
-                        <img src="${zapatilla.images[0]}" alt="${zapatilla.name}" class="carousel-img">
-                        <div class="carousel-content">
-                            <p class="carousel-brand">${zapatilla.brand}</p>
-                            <h3 class="carousel-title">${zapatilla.name}</h3>
-                            <p class="carousel-price">
-                                ${zapatilla.discount ? 
-                                    `<span style="text-decoration: line-through; color: #888; margin-right: 8px;">${precioBase}</span>` : ''
-                                }
-                                ${precioFinal}
-                            </p>
-                            <button class="btn add-to-cart-btn" data-id="${zapatilla.id}">Agregar al carrito</button>
-                        </div>
-                    `;
-                    carrusel.appendChild(item);
+        });
+});
+
+// Eliminar producto del carrito
+function eliminarProducto(index) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    carrito.splice(index, 1);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    mostrarCarrito();
+    actualizarCarrito();
+}
+
+// Vaciar el carrito
+function vaciarCarrito() {
+    localStorage.removeItem("carrito");
+    mostrarCarrito();
+    actualizarCarrito();
+}
+
+// Procesar pago
+function procesarPago() {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    
+    if (carrito.length === 0) {
+        alert("El carrito está vacío. Agrega productos antes de pagar.");
+        return;
+    }
+    
+    window.location.href = "http://localhost/sneaker_store/formulario_pago.html";
+}
+
+// Cerrar el modal del carrito
+function cerrarCarrito() {
+    document.getElementById("modalCarrito").style.display = "none";
+}
+
+// Evento para abrir el carrito
+document.addEventListener("DOMContentLoaded", function() {
+    actualizarCarrito();
+    
+    document.getElementById("abrirCarrito").addEventListener("click", function() {
+        document.getElementById("modalCarrito").style.display = "flex";
+        mostrarCarrito();
+    });
+    
+    // Resto de tu código de verificación de sesión...
+});
+
+        function cerrarSesion() {
+            fetch("http://localhost/sneaker_store/logout.php")
+                .then(() => {
+                    window.location.href = "index.html";
                 });
-                
-                // Event listeners para botones de carrusel
-                document.getElementById("next-btn").addEventListener("click", moverCarruselDerecha);
-                document.getElementById("prev-btn").addEventListener("click", moverCarruselIzquierda);
-                
-                // Agregar evento a botones de agregar al carrito
-                document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
-                    btn.addEventListener("click", agregarAlCarrito);
-                });
-            }
-            
-            // Función para mover el carrusel a la derecha
-            function moverCarruselDerecha() {
-                const carrusel = document.getElementById("carousel");
-                const itemWidth = carrusel.querySelector(".carousel-item").offsetWidth + 20; // 20px es el gap
-                carrusel.style.transform = `translateX(-${itemWidth}px)`;
-                
-                setTimeout(() => {
-                    carrusel.style.transition = "none";
-                    carrusel.appendChild(carrusel.firstElementChild);
-                    carrusel.style.transform = "translateX(0)";
-                    setTimeout(() => {
-                        carrusel.style.transition = "transform 0.5s ease";
-                    }, 50);
-                }, 500);
-            }
-            
-            // Función para mover el carrusel a la izquierda
-            function moverCarruselIzquierda() {
-                const carrusel = document.getElementById("carousel");
-                carrusel.style.transition = "none";
-                carrusel.insertBefore(carrusel.lastElementChild, carrusel.firstElementChild);
-                
-                const itemWidth = carrusel.querySelector(".carousel-item").offsetWidth + 20; // 20px es el gap
-                carrusel.style.transform = `translateX(-${itemWidth}px)`;
-                
-                setTimeout(() => {
-                    carrusel.style.transition = "transform 0.5s ease";
-                    carrusel.style.transform = "translateX(0)";
-                }, 50);
-            }
-            
-            // Función para renderizar las zapatillas en la grilla
-            function renderizarZapatillas(zapatillas) {
-                const container = document.getElementById("sneaker-grid");
-                container.innerHTML = "";
-                
-                zapatillas.forEach(zapatilla => {
-                    const precioBase = zapatilla.prices["7"];
-                    const precioFinal = zapatilla.discount ? 
-                        (precioBase - (precioBase * zapatilla.discount / 100)).toFixed(2) : 
-                        precioBase;
-                    
-                    const card = document.createElement("div");
-                    card.className = "sneaker-card";
-                    card.setAttribute("data-category", zapatilla.category);
-                    
-                    card.innerHTML = `
-                        <div class="sneaker-img-container">
-                            ${zapatilla.isNew ? '<span class="sneaker-badge">Nuevo</span>' : ''}
-                            ${zapatilla.discount ? `<span class="sneaker-badge" style="background-color: #f44336;">-${zapatilla.discount}%</span>` : ''}
-                            <img src="${zapatilla.images[0]}" alt="${zapatilla.name}" class="sneaker-img">
-                            <div class="sneaker-actions">
-                                <button class="action-btn wishlist-btn" data-id="${zapatilla.id}">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                                <button class="action-btn view-btn" data-id="${zapatilla.id}">
-                                    <i class="far fa-eye"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="sneaker-content">
-                            <p class="sneaker-brand">${zapatilla.brand}</p>
-                            <h3 class="sneaker-name">${zapatilla.name}</h3>
-                            <div class="sneaker-footer">
-                                <div class="sneaker-price">
-                                    ${zapatilla.discount ? 
-                                        `<span style="text-decoration: line-through; color: #888; font-size: 0.8rem; margin-right: 5px;">${precioBase}</span>` : ''
-                                    }
-                                    ${precioFinal}
-                                </div>
-                                <button class="add-to-cart" data-id="${zapatilla.id}">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    container.appendChild(card);
-                });
-                
-                // Event listeners para los filtros
-                document.querySelectorAll(".filter-btn").forEach(btn => {
-                    btn.addEventListener("click", filtrarZapatillas);
-                });
-                
-                // Event listeners para botones de agregar al carrito
-                document.querySelectorAll(".add-to-cart").forEach(btn => {
-                    btn.addEventListener("click", agregarAlCarrito);
-                });
-                
-                // Event listeners para botones de wishlist
-                document.querySelectorAll(".wishlist-btn").forEach(btn => {
-                    btn.addEventListener("click", agregarAWishlist);
-                });
-                
-                // Event listeners para botones de ver detalle
-                document.querySelectorAll(".view-btn").forEach(btn => {
-                    btn.addEventListener("click", verDetalle);
-                });
-            }
-            
-            // Función para filtrar zapatillas
-            function filtrarZapatillas(e) {
-                const filterBtn = e.target;
-                const filter = filterBtn.getAttribute("data-filter");
-                
-                // Actualizar botones activos
-                document.querySelectorAll(".filter-btn").forEach(btn => {
-                    btn.classList.remove("active");
-                });
-                filterBtn.classList.add("active");
-                
-                // Filtrar zapatillas
-                const cards = document.querySelectorAll(".sneaker-card");
-                cards.forEach(card => {
-                    if (filter === "all" || card.getAttribute("data-category") === filter) {
-                        card.style.display = "block";
-                    } else {
-                        card.style.display = "none";
-                    }
-                });
-            }
-            
-            // Función para agregar al carrito
-            function agregarAlCarrito(e) {
-                const btn = e.currentTarget;
-                const id = btn.getAttribute("data-id");
-                
-                // Incrementar contador del carrito
-                carritoCount++;
-                carritoCountElement.textContent = carritoCount;
-                
-                // Animación para el botón
-                btn.innerHTML = '<i class="fas fa-check"></i>';
-                btn.style.backgroundColor = "#4caf50";
-                
-                setTimeout(() => {
-                    if (btn.classList.contains("add-to-cart")) {
-                        btn.innerHTML = '<i class="fas fa-plus"></i>';
-                        btn.style.backgroundColor = "";
-                    } else {
-                        btn.textContent = "Agregar al carrito";
-                        btn.style.backgroundColor = "";
-                    }
-                }, 1500);
-                
-                // Aquí puedes agregar el código para guardar en localStorage o enviar a tu backend
-                console.log(`Producto ${id} agregado al carrito`);
-            }
-            
-            // Función para agregar a wishlist
-            function agregarAWishlist(e) {
-                const btn = e.currentTarget;
-                
-                // Cambiar icono
-                const icon = btn.querySelector("i");
-                if (icon.classList.contains("far")) {
-                    icon.classList.remove("far");
-                    icon.classList.add("fas");
-                    icon.style.color = "#ff4d4d";
-                } else {
-                    icon.classList.remove("fas");
-                    icon.classList.add("far");
-                    icon.style.color = "";
+        }
+
+        function filtrarPorMarca(marca) {
+        // Guardamos la marca seleccionada en localStorage
+            localStorage.setItem('marcaFiltrada', marca);
+        // Redirigimos a home.html
+        window.location.href = 'home.html';
+}
+
+        // Animaciones al hacer scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
                 }
-                
-                const id = btn.getAttribute("data-id");
-                console.log(`Producto ${id} ${icon.classList.contains("fas") ? "agregado a" : "eliminado de"} la wishlist`);
-            }
-            
-            // Función para ver detalle
-            function verDetalle(e) {
-                const id = e.currentTarget.getAttribute("data-id");
-                window.location.href = `detallezapatilla.html?id=${id}`;
-            }
-            
-            // Búsqueda de zapatillas
-            const searchBar = document.getElementById("search-bar");
-            searchBar.addEventListener("keyup", function() {
-                const searchTerm = this.value.toLowerCase();
-                const cards = document.querySelectorAll(".sneaker-card");
-                
-                cards.forEach(card => {
-                    const name = card.querySelector(".sneaker-name").textContent.toLowerCase();
-                    const brand = card.querySelector(".sneaker-brand").textContent.toLowerCase();
-                    
-                    if (name.includes(searchTerm) || brand.includes(searchTerm)) {
-                        card.style.display = "block";
-                    } else {
-                        card.style.display = "none";
-                    }
-                });
             });
-            
-            // Inicializar
-            cargarZapatillas();
-            
-            // Auto rotación del carrusel cada 5 segundos
-            setInterval(moverCarruselDerecha, 5000);
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.brand-card, .sneaker-card').forEach(card => {
+            observer.observe(card);
         });
     </script>
 </body>

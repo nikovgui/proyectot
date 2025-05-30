@@ -49,7 +49,7 @@
         try {
             let data = JSON.parse(text); // 📌 **Intenta convertirlo a JSON**
             if (data.success) {
-                window.location.href = "http://localhost/sneaker_store/home.html";
+                window.location.href = "http://localhost/sneaker_store/index.html";
             } else {
                 document.getElementById("error-message").innerText = data.error;
             }

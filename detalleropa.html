@@ -1,0 +1,698 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Prenda - OGKicks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --accent-color: #ff6b6b;
+            --background-light: #f8fafc;
+            --text-dark: #1e293b;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 12px 20px;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-color) !important;
+            letter-spacing: -0.5px;
+        }
+
+        .action-btn {
+            border-radius: 50px;
+            padding: 6px 14px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #152b63;
+            border-color: #152b63;
+            transform: translateY(-2px);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background-color: #ff5252;
+            border-color: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .search-form {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-form input {
+            border-radius: 50px;
+            padding-left: 40px;
+            border: 1px solid #e2e8f0;
+            background-color: #f1f5f9;
+        }
+
+        .search-form::before {
+            content: "🔍";
+            position: absolute;
+            left: 15px;
+            top: 8px;
+            opacity: 0.5;
+        }
+
+        .product-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .gallery-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .thumbnails {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            padding: 5px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+
+        .thumbnail:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .main-image-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f1f5f9;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 450px;
+        }
+
+        .main-image {
+            max-width: 100%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        .main-image:hover {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px 0;
+        }
+
+        .product-brand {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .product-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+        }
+
+        .size-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .size-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .size-button {
+            padding: 10px 20px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            background: white;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .size-button:hover {
+            border-color: var(--primary-color);
+        }
+
+        .size-button.selected {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-buy {
+            flex: 1;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-buy.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-buy:not(.disabled):hover {
+            transform: translateY(-3px);
+        }
+
+        .features-section {
+            padding: 20px 0;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .feature-icon {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .cart-icon {
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Estilos específicos para ropa */
+        .clothing-type {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+        
+        .color-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .color-option.selected {
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 991px) {
+            .gallery-container {
+                flex-direction: column-reverse;
+            }
+            
+            .thumbnails {
+                flex-direction: row;
+                justify-content: center;
+                margin-top: 15px;
+            }
+            
+            .main-image-container {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .product-container {
+                padding: 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">OGKicks</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost/sneaker_store/home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="http://localhost/sneaker_store/ropa.html">Ropa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Colecciones</a>
+                    </li>
+                </ul>
+                
+                <form class="search-form mx-lg-2" role="search">
+                    <input class="form-control" type="search" placeholder="Buscar ropa...">
+                </form>
+                
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+                    <span id="user-name" class="d-none d-lg-inline"></span>
+                    <div class="d-flex gap-2">
+                        <button id="abrirCarrito" class="btn action-btn btn-outline-dark position-relative" onclick="window.location.href='carrito.html'">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="carrito-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                        </button>
+                        <button class="btn action-btn btn-primary" onclick="window.location.href='http://localhost/sneaker_store/seguimiento.html'">
+                            <i class="fas fa-shipping-fast me-1"></i> Seguir
+                        </button>
+                        <button class="btn action-btn btn-outline-danger" onclick="cerrarSesion()">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container product-container">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="gallery-container">
+                    <div class="thumbnails" id="image-gallery"></div>
+                    <div class="main-image-container">
+                        <img id="main-image" class="main-image" src="" alt="Prenda de ropa">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="product-info">
+                    <div id="clothing-brand" class="product-brand">Brand</div>
+                    <div id="clothing-type" class="clothing-type">Tipo de prenda</div>
+                    <h1 id="clothing-name" class="product-name"></h1>
+                    <div class="product-price">Precio: <span id="final-price">-</span></div>
+
+                    <!-- Selector de color (nuevo para ropa) -->
+                    <label class="size-label"><i class="fas fa-palette me-2"></i>Color:</label>
+                    <div class="color-options" id="color-options"></div>
+
+                    <label class="size-label"><i class="fas fa-ruler me-2"></i>Talla:</label>
+                    <div class="size-container" id="size-options"></div>
+
+                    <div class="action-buttons">
+                        <button id="comprar-btn" class="btn btn-primary btn-buy" disabled>
+                            <i class="fas fa-credit-card me-2"></i>Comprar Ahora
+                        </button>
+                        <button id="agregarCarrito" class="btn btn-accent btn-buy">
+                            <i class="fas fa-shopping-cart me-2"></i>Añadir al carrito
+                        </button>           
+                    </div>
+                    
+                    <div class="features-section">
+                        <div class="feature-item">
+                            <i class="fas fa-truck feature-icon"></i>
+                            <span>Envío gratis en compras superiores a $100</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-box feature-icon"></i>
+                            <span>Garantía de autenticidad en todos nuestros productos</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-undo feature-icon"></i>
+                            <span>30 días para cambios y devoluciones</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Actualizar contador del carrito al cargar la página
+    document.addEventListener("DOMContentLoaded", function() {
+        actualizarCarrito();
+        cargarDatosUsuario();
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const clothingId = params.get("id");
+    let selectedSize = null;
+    let selectedColor = null;
+    let clothingData = null;
+
+    fetch(`http://localhost/sneaker_store/get_ropa.php?id=${clothingId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(clothing => {
+            if (clothing.error) {
+                throw new Error(clothing.error);
+            }
+            
+            console.log("Datos recibidos:", clothing);
+            clothingData = clothing;
+
+            // Mostrar información básica
+            document.getElementById("clothing-brand").textContent = clothing.brand || clothing.marca || 'OGKicks';
+            document.getElementById("clothing-type").textContent = clothing.category || clothing.categoria || 'Prenda de vestir';
+            document.getElementById("clothing-name").textContent = clothing.name || clothing.nombre || '';
+            
+            // Procesar imágenes (usar el array de imágenes si existe, o la imagen individual)
+            const images = clothing.imagenes ? JSON.parse(clothing.imagenes) : 
+                          (clothing.image ? [clothing.image] : 
+                          (clothing.imagen ? [clothing.imagen] : 
+                          ['https://via.placeholder.com/300x300?text=Imagen+no+disponible']));
+
+            // Establecer imagen principal
+            const mainImage = document.getElementById("main-image");
+            mainImage.src = images[0];
+            mainImage.onerror = function() {
+                this.src = 'https://via.placeholder.com/300x300?text=Imagen+no+disponible';
+            };
+
+            // Galería de imágenes (miniaturas)
+            const imageGallery = document.getElementById("image-gallery");
+            imageGallery.innerHTML = ''; // Limpiar miniaturas existentes
+            
+            images.forEach((imgSrc, index) => {
+                const div = document.createElement("div");
+                div.classList.add("thumbnail");
+                if (index === 0) div.classList.add("selected-thumbnail");
+                div.innerHTML = `<img src="${imgSrc}" alt="Vista de la prenda ${index + 1}">`;
+                div.onclick = () => {
+                    // Remover clase selected de todas las miniaturas
+                    document.querySelectorAll(".thumbnail").forEach(t => t.classList.remove("selected-thumbnail"));
+                    // Añadir clase selected a la miniatura clickeada
+                    div.classList.add("selected-thumbnail");
+                    // Cambiar imagen principal
+                    mainImage.src = imgSrc;
+                };
+                imageGallery.appendChild(div);
+            });
+
+            // Selector de colores
+            const colorContainer = document.getElementById("color-options");
+            colorContainer.innerHTML = ''; // Limpiar colores existentes
+            
+            // Si hay múltiples colores en formato JSON, usarlos, sino usar el color único
+            const colors = clothing.colores ? JSON.parse(clothing.colores) : 
+                         (clothing.color ? [{name: clothing.color, hex: getColorHex(clothing.color)}] : 
+                         [{name: 'Color', hex: '#CCCCCC'}]);
+            
+            colors.forEach(color => {
+                const colorDiv = document.createElement("div");
+                colorDiv.classList.add("color-option");
+                colorDiv.style.backgroundColor = color.hex || getColorHex(color.name);
+                colorDiv.title = color.name || 'Color';
+                
+                colorDiv.onclick = () => {
+                    document.querySelectorAll(".color-option").forEach(c => c.classList.remove("selected"));
+                    colorDiv.classList.add("selected");
+                    selectedColor = color.name || color.hex;
+                };
+                
+                colorContainer.appendChild(colorDiv);
+                
+                // Seleccionar el primer color por defecto
+                if (colors.indexOf(color) === 0) {
+                    colorDiv.click();
+                }
+            });
+
+            // Mostrar tallas disponibles
+            const sizeContainer = document.getElementById("size-options");
+            const priceSpan = document.getElementById("final-price");
+            sizeContainer.innerHTML = ''; // Limpiar tallas existentes
+            
+            // Si hay múltiples tallas en formato JSON, usarlas, sino usar la talla única
+            const sizes = clothing.tallas ? JSON.parse(clothing.tallas) : 
+                         (clothing.size ? [clothing.size] : 
+                         (clothing.talla ? [clothing.talla] : []));
+            
+            if (sizes.length > 0) {
+                sizes.forEach(size => {
+                    const btn = document.createElement("button");
+                    btn.classList.add("size-button");
+                    btn.textContent = size.toUpperCase();
+                    
+                    btn.onclick = () => {
+                        document.querySelectorAll("#size-options button").forEach(b => b.classList.remove("selected"));
+                        btn.classList.add("selected");
+                        selectedSize = size;
+                        // Mostrar precio (asumimos mismo precio para todas las tallas)
+                        priceSpan.textContent = `$${parseFloat(clothing.price || clothing.precio || 0).toFixed(2)}`;
+                        document.getElementById("comprar-btn").disabled = false;
+                        document.getElementById("comprar-btn").classList.remove("disabled");
+                    };
+                    
+                    sizeContainer.appendChild(btn);
+                    
+                    // Seleccionar la primera talla por defecto
+                    if (sizes.indexOf(size) === 0) {
+                        btn.click();
+                    }
+                });
+            } else {
+                sizeContainer.textContent = "No hay tallas disponibles";
+                priceSpan.textContent = "-";
+            }
+            
+            // Mostrar detalles adicionales si existen
+            if (clothing.material) {
+                const materialItem = document.createElement("div");
+                materialItem.classList.add("feature-item");
+                materialItem.innerHTML = `
+                    <i class="fas fa-tshirt feature-icon"></i>
+                    <span>Material: ${clothing.material}</span>
+                `;
+                document.querySelector(".features-section").prepend(materialItem);
+            }
+            
+            if (clothing.stock) {
+                const stockItem = document.createElement("div");
+                stockItem.classList.add("feature-item");
+                stockItem.innerHTML = `
+                    <i class="fas fa-boxes feature-icon"></i>
+                    <span>Stock disponible: ${clothing.stock} unidades</span>
+                `;
+                document.querySelector(".features-section").prepend(stockItem);
+            }
+        })
+        .catch(error => {
+            console.error("Error obteniendo detalles:", error);
+            document.body.innerHTML = `
+                <div class='container mt-5'>
+                    <div class='alert alert-danger'>
+                        <i class='fas fa-exclamation-triangle me-2'></i>
+                        ${error.message || 'Error cargando el producto'}
+                    </div>
+                    <button class='btn btn-primary' onclick='window.location.href="ropa.html"'>
+                        Volver a la tienda
+                    </button>
+                </div>
+            `;
+        });
+
+    // Función auxiliar para convertir nombres de color a HEX
+    function getColorHex(colorName) {
+        const colors = {
+            'negro': '#000000',
+            'blanco': '#FFFFFF',
+            'rojo': '#FF0000',
+            'azul': '#0000FF',
+            'verde': '#00FF00',
+            'amarillo': '#FFFF00',
+            'rosa': '#FFC0CB',
+            'gris': '#808080',
+            'morado': '#800080',
+            'naranja': '#FFA500',
+            'marron': '#A52A2A',
+            'beige': '#F5F5DC',
+            // Añade más colores según necesites
+        };
+        return colors[colorName.toLowerCase()] || '#CCCCCC';
+    }
+
+    // Evento para el botón de comprar
+    document.getElementById("comprar-btn").addEventListener("click", function() {
+        if (!selectedSize) {
+            alert("Por favor, selecciona una talla antes de comprar.");
+            return;
+        }
+
+        const clothingPrice = document.getElementById("final-price").textContent.replace("$", "");
+        window.location.href = `http://localhost/sneaker_store/formulario_pago.html?id=${clothingId}&precio=${clothingPrice}&size=${selectedSize}&type=clothing`;
+    });
+
+    // Evento para agregar al carrito
+    document.getElementById("agregarCarrito").addEventListener("click", function () {
+        if (!selectedSize) {
+            alert("Selecciona una talla antes de añadir al carrito.");
+            return;
+        }
+
+        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+        const nuevoItem = {
+            id: clothingId,
+            name: document.getElementById("clothing-name").textContent,
+            type: document.getElementById("clothing-type").textContent,
+            image: document.getElementById("main-image").src,
+            size: selectedSize,
+            color: selectedColor,
+            price: document.getElementById("final-price").textContent.replace("$", ""),
+            productType: "clothing"
+        };
+
+        carrito.push(nuevoItem);
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+        actualizarCarrito();
+
+        // Mostrar notificación
+        const toast = document.createElement('div');
+        toast.className = 'position-fixed bottom-0 end-0 p-3';
+        toast.innerHTML = `
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Producto agregado al carrito
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    });
+
+    function actualizarCarrito() {
+        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        document.getElementById("carrito-count").textContent = carrito.length;
+    }
+
+    function cargarDatosUsuario() {
+        fetch("http://localhost/sneaker_store/session_status.php")
+            .then(response => response.json())
+            .then(data => {
+                if (data.logged_in) {
+                    document.getElementById("user-name").innerText = `Bienvenido, ${data.nombre}`;
+                    document.getElementById("user-name").classList.remove("d-none");
+                }
+            })
+            .catch(error => console.error("Error cargando datos de usuario:", error));
+    }
+
+    function cerrarSesion() {
+        fetch("http://localhost/sneaker_store/logout.php")
+        .then(() => {
+            window.location.href = "http://localhost/sneaker_store/login.html";
+        });
+    }
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

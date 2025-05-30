@@ -11,7 +11,10 @@ if (!isset($_SESSION["admin"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
     $sizes_prices = [];
+    $categories = isset($_POST["categories"]) ? $_POST["categories"] : [];
     
+    // Si categories es un array, lo convertimos a JSON
+    $categories_json = is_array($categories) ? json_encode($categories) : $categories;
 
     // 📌 **Recopilar tallas y precios**
     foreach ($_POST["sizes"] as $size) {
@@ -53,15 +56,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $imagesJson = json_encode(array_values($imagePaths), JSON_UNESCAPED_SLASHES);
 
     $conn = getDBConnection();
-    $stmt = $conn->prepare("INSERT INTO sneakers (name, images, prices, sizes) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO sneakers (name, images, prices, sizes, categories, en_oferta) VALUES (?, ?, ?, ?, ?, ?)");
     
-    if ($stmt->execute([$name, $imagesJson, $prices, json_encode(array_keys($sizes_prices))])) {
+    if ($stmt->execute([$name, $imagesJson, $prices, json_encode(array_keys($sizes_prices)), $categories_json, $_POST["en_oferta"] ?? 0])) {
         echo "<script>alert('✅ Zapatilla agregada correctamente!');</script>";
     } else {
         echo "<script>alert('⚠ Error al agregar zapatilla.');</script>";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -78,9 +80,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         form button:hover { background-color: #0056b3; }
         .preview-images { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
         .preview-images img { width: 80px; height: 80px; object-fit: cover; border-radius: 5px; }
-        .sizes-container { display: flex; flex-direction: column; text-align: left; margin-top: 10px; }
+        .sizes-container, .categories-container { display: flex; flex-direction: column; text-align: left; margin-top: 10px; }
         .size-input { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
         .size-input input { width: 60px; text-align: center; }
+        .categories-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .categories-options label { display: flex; align-items: center; gap: 5px; }
     </style>
 </head>
 <body>
@@ -88,6 +92,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Agregar Zapatilla</h2>
         <form method="POST" enctype="multipart/form-data">
             <input type="text" name="name" placeholder="Nombre de la zapatilla" required>
+
+            <!-- 📌 Campo para categorías -->
+            <div class="categories-container">
+                <p><strong>Selecciona categorías:</strong></p>
+                <div class="categories-options">
+                    <label><input type="checkbox" name="categories[]" value="running"> Running</label>
+                    <label><input type="checkbox" name="categories[]" value="basketball"> Basketball</label>
+                    <label><input type="checkbox" name="categories[]" value="lifestyle"> Lifestyle</label>
+                    <label><input type="checkbox" name="categories[]" value="skateboarding"> Skateboarding</label>
+                    <label><input type="checkbox" name="categories[]" value="training"> Training</label>
+                    <label><input type="checkbox" name="categories[]" value="outdoor"> Outdoor</label>
+                    <label><input type="checkbox" name="categories[]" value="coleccion"> Coleccion</label>
+
+                </div>
+            </div>
 
             <!-- 📌 Checkboxes para seleccionar tallas y precios -->
             <div class="sizes-container">
@@ -119,7 +138,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label>
                     <input type="checkbox" name="en_oferta" value="1"> Marcar como oferta
                 </label>
-
             </div>
 
             <input type="file" name="images[]" multiple accept="image/*" id="image-input">
@@ -129,19 +147,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <script>
-document.addEventListener("DOMContentLoaded", function () {
-    fetch("http://localhost/sneaker_store/check_admin.php")
-        .then(response => response.json())
-        .then(data => {
-            console.log("Admin status:", data.admin); // 📌 Agrega esto para depuración
-            if (data.admin) {
-                document.getElementById("add-sneaker-button").style.display = "block";
-            }
-        })
-        .catch(error => console.error("Error verificando administrador:", error));
-});
-
-
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("http://localhost/sneaker_store/check_admin.php")
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Admin status:", data.admin);
+                    if (data.admin) {
+                        document.getElementById("add-sneaker-button").style.display = "block";
+                    }
+                })
+                .catch(error => console.error("Error verificando administrador:", error));
+        });
 
         document.getElementById("image-input").addEventListener("change", function(event) {
             let previewContainer = document.getElementById("preview");
